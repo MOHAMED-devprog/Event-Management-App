@@ -40,7 +40,7 @@ export default function EventForm() {
                 <button type="submit">Create</button>
             </form>
 
-        </div> 
+            </div>
         </>
 
         

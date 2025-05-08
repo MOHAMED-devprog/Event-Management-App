@@ -1,46 +1,61 @@
 import NavBar from "../components/NavBar";
 
+
 export default function EventForm() {
 
     
     return (
         <>
             <NavBar />
-            <div className="event-form">
+            <div className="event-form-page">
+                <div className="event-form">
+                    <h2>Create Your Event</h2> 
+                    <form>
+                        <div className="form-group">
+                            <label>Title</label>
+                            <input 
+                                type="text"
+                                placeholder="Title"
+                                name="title"
+                                required
+                            />
+                        </div>
 
-            <form>
-                <label>Title</label>
-                <input 
-                    type ="text"
-                    placeholder="Title"
-                    name="title"
-                    required
-                />
-                <label>Description</label>
-                <input 
-                    type ="text"
-                    placeholder="Descrption"
-                    name="description"
-                    required
-                />
-                <label>Event date</label>
-                <input 
-                    type="date"
-                    placeholder="DD/MM/YYYY"
-                    name="date"
-                    required
-                />
-                <label>Location</label>
-                <input 
-                    type="text"
-                    placeholder="Location"
-                    name="location"
-                    required
-                />
-                <button type="submit">Create</button>
-            </form>
+                        <div className="form-group">
+                            <label>Description</label>
+                            <textarea
+                                placeholder="Enter some details..."
+                                className="description"
+                                rows={5}
+                                name="description"
+                                required
+                            ></textarea>
+                        </div>
 
-        </div> 
+                        <div className="form-group">
+                            <label>Event date</label>
+                            <input 
+                                type="date"
+                                name="date"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Location</label>
+                            <input 
+                                type="text"
+                                placeholder="Location"
+                                name="location"
+                                required
+                            />
+                        </div>
+                        
+                        <button className="create-button" type="submit">Create</button>
+                    </form>
+                </div>
+
+            </div>      
         </>
 
         

@@ -1,0 +1,59 @@
+.event-card{
+    border: 1px solid rgb(253, 249, 12);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    max-width:  300px;
+    display: inline-block;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    color: black;
+    transition: transform 0.5s;
+
+  }
+  
+  .event-container {
+    display: flex;
+  }
+  
+  
+  
+  .event-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .event-image {
+    width: 100%;
+    border-radius: 10px;
+  }
+  
+  .event-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+  }
+  
+  .event-details {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .event-button {
+    border: none;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    margin-top: 15px;
+    transition: background 0.3s ;
+  }
+  
+  .event-button:hover {
+    background: #3deaf7;
+  }
+  
+  

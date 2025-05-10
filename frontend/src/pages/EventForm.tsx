@@ -1,61 +1,171 @@
+import { useState, type FormEvent } from "react";
 import NavBar from "../components/NavBar";
-
+import { createEvent } from "../services/eventCreation";
+import { useProfile } from "../context/ProfileContext";
+import { Timestamp } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 export default function EventForm() {
 
+    const {profile} = useProfile();
+
+    const  navigate = useNavigate();
+
+    const participantsNumber :number = 0;
+
+    const [image, setImage] = useState<File | null>(null);
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [date, setDate] = useState<Timestamp>(new Timestamp(0,0));
+    const [location, setLocation] = useState("");
+
+
+    const handleFileChange = async () => {
+        
+        if (image) {
+            const Image = new FormData();
+            Image.append("image", image);
+
+            const response = await fetch("http://localhost:3000/images", {
+
+                method: "POST",
+                body: Image,
+
+            });
+
+            const data = await response.json();
+            return data.url;
+        }
+        
+    };
+
+
+
+    const handleSubmit = async (e: FormEvent) => {
+
+        e.preventDefault();
+        const imageUrl = (await handleFileChange()).toString();
+        const creatorId = profile?.id;
+
+        if (creatorId)
+            await createEvent({title, description, date, location, imageUrl, creatorId, participantsNumber});
+
+        navigate('/');
+
+    } 
     
     return (
         <>
             <NavBar />
             <div className="event-form-page">
-                <div className="event-form">
-                    <h2>Create Your Event</h2> 
-                    <form>
-                        <div className="form-group">
-                            <label>Title</label>
-                            <input 
-                                type="text"
-                                placeholder="Title"
-                                name="title"
-                                required
-                            />
-                        </div>
 
-                        <div className="form-group">
-                            <label>Description</label>
-                            <textarea
-                                placeholder="Enter some details..."
-                                className="description"
-                                rows={5}
-                                name="description"
-                                required
-                            ></textarea>
-                        </div>
+            
+                <div className="event-form-container">
+                    <div className="event-form-card">
 
-                        <div className="form-group">
-                            <label>Event date</label>
-                            <input 
-                                type="date"
-                                name="date"
-                                required
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label>Location</label>
-                            <input 
-                                type="text"
-                                placeholder="Location"
-                                name="location"
-                                required
-                            />
+                        <div className="form-header">
+                            <h2>Create Your Event</h2>
+                            <p>Fill in the details below to create a new event</p>
                         </div>
                         
-                        <button className="create-button" type="submit">Create</button>
-                    </form>
-                </div>
+                        <form onSubmit={handleSubmit} className="event-form">
+                            <div className="form-group">
+                                <label htmlFor="title">Event Title</label>
+                                <div className="input-container">
+                                    <input
+                                        type="text"
+                                        id="title"
+                                        placeholder="title"
+                                        required
+                                        onChange={(e) => setTitle(e.target.value)}
+                                    />
+                                    <svg className="input-icon" viewBox="0 0 24 24">
+                                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/>
+                                    </svg>
+                                </div>
+                            </div>
 
-            </div>      
+                            <div className="form-group">
+                                <label htmlFor="description">Event Description</label>
+                                <div className="textarea-container">
+                                    <textarea
+                                        id="description"
+                                        placeholder="Describe your event in detail..."
+                                        rows={5}
+                                        required
+                                        onChange={(e) => setDescription(e.target.value)}
+                                    ></textarea>
+                                    <svg className="textarea-icon" viewBox="0 0 24 24">
+                                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            
+                            <div className="form-group">
+                                <label htmlFor="date">Event Date</label>
+                                <div className="input-container">
+                                    <input
+                                    type="date"
+                                    id="date"
+                                    required
+                                    onChange={(e) => setDate(Timestamp.fromDate(new Date(e.target.value)))}
+                                    />
+                                    <svg className="input-icon" viewBox="0 0 24 24">
+                                    <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zM5 7V5h14v2H5zm2 4h10v2H7zm0 4h7v2H7z"/>
+                                    </svg>
+                                </div>
+                            </div>
+
+                        <div className="form-group">
+                            <label htmlFor="location">Location</label>
+                            <div className="input-container">
+                                <input
+                                type="text"
+                                id="location"
+                                placeholder="Address..."
+                                required
+                                onChange={(e) => setLocation(e.target.value)}
+                                />
+                                <svg className="input-icon" viewBox="0 0 24 24">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    
+
+                        <div className="form-group">
+                            <label htmlFor="event_image">Event Image</label>
+                            <div className="file-upload-container">
+                                <input
+                                    type="file"
+                                    id="event_image"
+                                    accept="image/*"
+                                    required
+                                    onChange={(e) => setImage(e.target.files?.[0] || null)}
+                                />
+                                <label htmlFor="event_image" className="file-upload-label">
+                                    <svg className="upload-icon" viewBox="0 0 24 24">
+                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                    </svg>
+                                    <span>Choose an image</span>
+                                    <span className="file-name">{image ? image.name : "No file selected"}</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" className="submit-button">
+                            Create Event
+                            <svg className="button-icon" viewBox="0 0 24 24">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                        </button>
+                        </form>
+                    </div>
+                </div> 
+
+
+            </div>
         </>
 
         

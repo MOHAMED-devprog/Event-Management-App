@@ -4,7 +4,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { type Event } from "../types/interfaces";
 
 
-export const getAllEvents = async () => {
+export const getAllEvents = async (creatorId? : string) => {
 
     const data = await getDocs(collection(db, 'event'));
 
@@ -12,24 +12,50 @@ export const getAllEvents = async () => {
 
     let docs : Event [] = [];
 
-    documents.forEach(event => {
+    if (creatorId){
 
-        if (event.data().creator_id !== ""){
+        documents.forEach(event => {
 
-            const newEvent : Event = {
-                id : event.id,
-                title : event.data().title,
-                description : event.data().description,
-                date : event.data().date,
-                location : event.data().location,
-                imageUrl : event.data().imageUrl,
-                creatorId : event.data().creator_id,
-                participantsNumber : event.data().participantsNumber
+    
+            if (event.data().creatorId === creatorId){
+
+                const newEvent : Event = {
+                    id : event.id,
+                    title : event.data().title,
+                    description : event.data().description,
+                    date : event.data().date,
+                    location : event.data().location,
+                    imageUrl : event.data().imageUrl,
+                    creatorId : event.data().creator_id,
+                    participantsNumber : event.data().participantsNumber
+                }
+
+                docs.push(newEvent);
             }
+        });
 
-            docs.push(newEvent);
-        }
-    });
+    }else {
+
+        documents.forEach(event => {
+
+            if (event.data().creator_id !== ""){
+
+                    const newEvent : Event = {
+                        id : event.id,
+                        title : event.data().title,
+                        description : event.data().description,
+                        date : event.data().date,
+                        location : event.data().location,
+                        imageUrl : event.data().imageUrl,
+                        creatorId : event.data().creator_id,
+                        participantsNumber : event.data().participantsNumber
+                    }
+
+                    docs.push(newEvent);
+                }
+        });
+    }
+
     
     return docs;
 

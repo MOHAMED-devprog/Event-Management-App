@@ -18,7 +18,7 @@ export default function Connexion(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
-
+    const [errorAuthentification, setErrorAuthentification] = useState("");
 
     const switchToggle = () => setIsLogin(!islogin);
 
@@ -29,10 +29,17 @@ export default function Connexion(){
 
             const user : User | null = islogin ? await loginUser({email}, password) : await registerUser({username, email}, password);
 
-            switchLogin();
-            updateName(user!);
-            navigate('/');
+            if (user){
+
+                localStorage.setItem("currentUser",JSON.stringify(user));
+                
+                switchLogin(true);
+                updateName(user);
+                navigate('/');
+            }
+            setErrorAuthentification("");
         }catch (e){
+            setErrorAuthentification('Invalid E-mail or Password !');
             console.log("error creating user : "+ e);
         }
         
@@ -42,7 +49,7 @@ export default function Connexion(){
     return (
         <div className="page-container">
 
-            <button className="back-home">
+            <button className="back-home" onClick={() => navigate('/')}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                 </svg>
@@ -85,6 +92,7 @@ export default function Connexion(){
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     /><br></br>
+                    <span className="authentification-error">{errorAuthentification}</span>
                     <button type="submit">
                         {islogin ? "Login" : "Submit"}
                     </button>

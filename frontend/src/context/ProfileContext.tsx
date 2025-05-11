@@ -4,7 +4,7 @@ import {type User} from "../types/interfaces";
 
 interface ProfileType {
     profile : User | null;
-    updateName : (user : User) => void;
+    updateName : (user : User | null) => void;
 }
 
 const ProfileContext = createContext<ProfileType | undefined>(undefined);
@@ -13,7 +13,7 @@ export const ProfileProvider = ({children} : {children : ReactNode}) => {
 
     const [profile, setProfile] = useState<User | null>(null);
 
-    const updateName = (user : User) => setProfile(user);
+    const updateName = (user : User | null) => setProfile(user);
 
     return (
         <ProfileContext.Provider value={{profile, updateName}}>

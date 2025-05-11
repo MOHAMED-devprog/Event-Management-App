@@ -4,11 +4,18 @@ import { useProfile } from "../context/ProfileContext";
 
 export default function NavBar() {
 
-    const {profile} = useProfile();
+    const {profile, updateName} = useProfile();
 
-    const {login} = useLogin();
+    const {login, switchLogin} = useLogin();
 
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("currentUser");
+        updateName(null);
+        switchLogin(false);
+    }
+    
     
     return (
 
@@ -50,7 +57,7 @@ export default function NavBar() {
                     </Link>
                 </li>
                 <li>
-                    <Link to="#" className="nav-link">
+                    <Link to="/MyEvents" className="nav-link">
                         <svg className="nav-icon" viewBox="0 0 24 24">
                             <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
                         </svg>
@@ -62,19 +69,32 @@ export default function NavBar() {
                 <div className="navbar-user">
                 {login ? (
                     <div className="user-menu">
-                        <div className="user-avatar">
+                        <div className="user-info-section">
+                            <div className="user-avatar">
                             {profile?.username?.charAt(0).toUpperCase()}
+                            </div>
+                            <div className="user-info">
+                                <span className="username">{profile?.username}</span>
+                                <span className="user-status">
+                                <span className="status-dot"></span>
+                                Online
+                                </span>
+                            </div>
+                            <svg className="dropdown-icon" viewBox="0 0 24 24">
+                                <path d="M7 10l5 5 5-5z"/>
+                            </svg>
                         </div>
-                        <div className="user-info">
-                            <span className="username">{profile?.username}</span>
-                            <span className="user-status">
-                            <span className="status-dot"></span>
-                            Online
-                            </span>
+                        
+                        <div className="user-menu-dropdown" onClick={handleLogout}>
+                            <div className="dropdown-item">
+                            <svg className="logout-icon" viewBox="0 0 24 24">
+                                <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                            </svg>
+                            <span>Sign Out</span>
+                            </div>
                         </div>
-                        <svg className="dropdown-icon" viewBox="0 0 24 24">
-                            <path d="M7 10l5 5 5-5z"/>
-                        </svg>
+
+                        
                     </div>
                 ) : (
                     <button onClick={() => navigate('/Connexion')} className="auth-button">

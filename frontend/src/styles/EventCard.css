@@ -37,7 +37,7 @@
 .event-image {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   transition: transform 0.5s ease;
 }
 
@@ -62,7 +62,7 @@
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Added to make content fill space */
+  flex-grow: 1; 
 }
 
 .event-meta {
@@ -95,15 +95,15 @@
   color: #1a2028;
   line-height: 1.6;
   margin-bottom: 1.5rem;
-  flex-grow: 1; /* Added to push footer down */
+  flex-grow: 1; 
 }
 
 .event-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: auto; /* This makes it stick to bottom */
-  padding-top: 1.5rem; /* Added spacing above footer */
+  margin-top: auto; 
+  padding-top: 1.5rem; 
 }
 
 .participants {

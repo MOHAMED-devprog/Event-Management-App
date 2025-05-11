@@ -7,12 +7,35 @@ import Connexion from './pages/Connexion';
 import EventForm from './pages/EventForm';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import EventList from './pages/EventList';
+import { useEffect } from 'react';
+import { useProfile } from './context/ProfileContext';
+import { useLogin } from './context/LoginContext';
+import MyEvents from './pages/MyEvents';
 
 function App() {
+
+  const {updateName} = useProfile();
+  const {switchLogin} = useLogin();
+
+  useEffect(() => {
+    
+    const currentUser = localStorage.getItem('currentUser');
+
+    if (currentUser){
+      updateName(JSON.parse(currentUser));
+      switchLogin(true);
+    }
+
+  },[]);
+
+
+
+
   return (
     <Router>
       <Routes>
         <Route path="/" element={<EventList/>}/>
+        <Route path="/MyEvents" element={<MyEvents/>}/>
         <Route path="/Event-form" element={<EventForm />}/>
         <Route path="/Connexion" element={<Connexion/>}/>
       </Routes>

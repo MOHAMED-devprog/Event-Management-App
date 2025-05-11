@@ -15,7 +15,7 @@
   min-height: 100vh;
   width: 100%;
   padding: 2rem;
-  background-color: #f8fafc;
+  
 }
 
 .event-form-card {
@@ -186,6 +186,39 @@ input:focus, textarea:focus {
   fill: white;
 }
 
+.unavailable-create-event-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  padding-bottom: 10%;
+}
+
+.unavailable-create-event-message h1{
+  color:#41454e;
+}
+
+.unavailable-create-event-message button{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #000000;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.unavailable-create-event-message button:hover {
+  background-color: #41454e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(58, 134, 255, 0.3);
+}
 
 @media (max-width: 768px) {
   .event-form-card {

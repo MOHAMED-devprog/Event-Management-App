@@ -1,9 +1,9 @@
-import { deRegisterForEvent, registerForEvent } from '../services/eventRegistration'
+import {  registerForEvent } from '../services/eventRegistration'
 import '../styles/EventCard.css'
 import { useProfile } from '../context/ProfileContext'
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useRemovingRegistration } from '../context/RemovingRegistrationContext';
+
 
 
 export default function EventCard(props:any){

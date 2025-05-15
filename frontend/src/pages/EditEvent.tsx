@@ -1,10 +1,8 @@
 import { useEffect, useState, type FormEvent } from "react";
 import NavBar from "../components/NavBar";
-import { createEvent, deleteEvent, updateEvent } from "../services/eventCreation";
-import { useProfile } from "../context/ProfileContext";
+import { deleteEvent, updateEvent } from "../services/eventCreation";
 import { Timestamp } from "firebase/firestore";
 import { useNavigate, useParams } from "react-router-dom";
-import { useLogin } from "../context/LoginContext";
 import { getEventById } from "../services/getAllEvents";
 import { type Event } from "../types/interfaces";
 

@@ -1,5 +1,5 @@
-import { db } from "../../../backend/firebase"
-import {addDoc, collection, deleteDoc, doc, setDoc, updateDoc} from "firebase/firestore"
+import { db } from "../firebase"
+import {addDoc, collection, deleteDoc, doc, updateDoc} from "firebase/firestore"
 import { type Event } from "../types/interfaces"
 
 export const createEvent = async ({title, description, date, location, imageUrl, creatorId, participantsNumber} : Event) => {

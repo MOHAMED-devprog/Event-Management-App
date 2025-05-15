@@ -1,4 +1,4 @@
-import { db } from "../../../backend/firebase";
+import { db } from "../firebase";
 import { addDoc , collection, deleteDoc, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
 
 

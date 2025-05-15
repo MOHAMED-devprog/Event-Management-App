@@ -8,8 +8,7 @@ import { useSearchEvent } from "../context/SearchEventContext";
 import { getAllRegistrations } from "../services/getAllRegistrations";
 import { useProfile } from "../context/ProfileContext";
 import { useRemovingRegistration } from "../context/RemovingRegistrationContext";
-import { registerForEvent } from "../services/eventRegistration";
-import { useRegistration } from "../context/RegistrationContext";
+
 
 
 
@@ -23,7 +22,6 @@ export default function EventList(){
 
     const {eventSearch} = useSearchEvent();
     const {updateIsRemoving} = useRemovingRegistration();
-    const {updateRegistration} = useRegistration();
     const {profile} = useProfile();
 
 
@@ -52,14 +50,14 @@ export default function EventList(){
     }
 
 
-    
-
-
 
     useEffect(() => {  
         
-        updateIsRemoving(false);
-        fetchAllEvents("", eventSearch);
+        if (eventSearch !== ""){
+            updateIsRemoving(false);
+            fetchAllEvents("", eventSearch);
+        }else
+            fetchAllEvents("", "");
 
     }, [eventSearch]);
 

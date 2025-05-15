@@ -1,4 +1,4 @@
-import { db } from "../../frontend/src/firebase";
+import { db } from "../firebase";
 import {  collection, getDocs } from "firebase/firestore";
 
 export const getAllRegistrations = async (userId :string) => {

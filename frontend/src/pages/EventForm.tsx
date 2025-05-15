@@ -46,11 +46,12 @@ export default function EventForm() {
     const handleSubmit = async (e: FormEvent) => {
 
         e.preventDefault();
-        const imageUrl = (await handleFileChange()).toString();
+        const imageUrl = (await handleFileChange());
         const creatorId = profile?.id;
+        const id :string = creatorId + "_" +imageUrl;
 
         if (creatorId)
-            await createEvent({title, description, date, location, imageUrl, creatorId, participantsNumber});
+            await createEvent({id, title, description, date, location, imageUrl, creatorId, participantsNumber});
 
         navigate('/');
 

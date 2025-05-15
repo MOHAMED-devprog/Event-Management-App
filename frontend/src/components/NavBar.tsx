@@ -1,16 +1,37 @@
 import { Link, useNavigate } from "react-router-dom"
 import { useLogin } from "../context/LoginContext";
 import { useProfile } from "../context/ProfileContext";
+import { useSearchEvent } from "../context/SearchEventContext";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
 export default function NavBar() {
 
+    //profile state :
+    /*
+      * updating the profile state after sign in
+      * using the current profile for updating the user section in the navigation bar
+    */
     const {profile, updateName} = useProfile();
 
+
+    //login state :
+    /*
+      * updating the user menu after sign in or sign out
+    */
     const {login, switchLogin} = useLogin();
 
+
+    //updateSearchedEvent setter for the eventSearch state :
+    /*
+      * updating the state for filtering the Event list For the giving input title
+    */
+    const {updateSearchEvent} = useSearchEvent();
+ 
     const navigate = useNavigate();
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        await signOut(auth);
         localStorage.removeItem("currentUser");
         updateName(null);
         switchLogin(false);
@@ -21,60 +42,71 @@ export default function NavBar() {
 
         <nav className="navbar">
             <div className="navbar-container">
+
                 <div className="navbar-brand">
-                <Link to="/" className="logo">Events</Link>
+                    <Link to="/" className="logo">Events</Link>
                 </div>
                 
                 <div className="navbar-search">
-                <div className="search-container">
-                    <svg className="search-icon" viewBox="0 0 24 24">
-                    <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-                    </svg>
-                    <input 
-                    className="search-input" 
-                    type="text" 
-                    placeholder="Search events..." 
-                    aria-label="Search events"
-                    />
-                </div>
+                    <div className="search-container">
+                        <svg className="search-icon" viewBox="0 0 24 24">
+                        <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                        </svg>
+                        <input 
+                            className="search-input" 
+                            type="text" 
+                            placeholder="Search events..." 
+                            aria-label="Search events"
+                            onChange={(e) => updateSearchEvent(e.target.value)}
+                        />
+                    </div>
                 </div>
                 
                 <ul className="navbar-links">
-                <li>
-                    <Link to="/" className="nav-link">
-                        <svg className="nav-icon" viewBox="0 0 24 24">
-                            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-                        </svg>
-                        <span>Home</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link to="/Event-form" className="nav-link">
-                        <svg className="nav-icon" viewBox="0 0 24 24">
-                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-                        </svg>
-                        <span>Create Event</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link to="/MyEvents" className="nav-link">
-                        <svg className="nav-icon" viewBox="0 0 24 24">
-                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                        </svg>
-                        <span>My Events</span>
-                    </Link>
-                </li>
+                    <li>
+                        <Link to="/" className="nav-link">
+                            <svg className="nav-icon" viewBox="0 0 24 24">
+                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                            </svg>
+                            <span>Home</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/Event-form" className="nav-link">
+                            <svg className="nav-icon" viewBox="0 0 24 24">
+                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                            </svg>
+                            <span>Create Event</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/MyRegistrations" className="nav-link">
+                            <svg className="nav-icon" viewBox="0 0 24 24">
+                                <path d="M19 4h-1V3a1 1 0 0 0-2 0v1H8V3a1 1 0 0 0-2 0v1H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/>
+                                <path d="M12 12a1 1 0 1 0-1-1 1 1 0 0 0 1 1zm0 3a1 1 0 1 0-1-1 1 1 0 0 0 1 1zm3-3a1 1 0 1 0-1-1 1 1 0 0 0 1 1zm0 3a1 1 0 1 0-1-1 1 1 0 0 0 1 1zm-6 0a1 1 0 1 0-1-1 1 1 0 0 0 1 1z"/>
+                            </svg>
+                            <span>My Registrations</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/MyEvents" className="nav-link">
+                            <svg className="nav-icon" viewBox="0 0 24 24">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                            <span>My Events</span>
+                        </Link>
+                    </li>
                 </ul>
                 
                 <div className="navbar-user">
-                {login ? (
+                {login && profile? (
                     <div className="user-menu">
                         <div className="user-info-section">
                             <div className="user-avatar">
                             {profile?.username?.charAt(0).toUpperCase()}
                             </div>
                             <div className="user-info">
-                                <span className="username">{profile?.username}</span>
+                                <span className="username">{profile.username}</span>
                                 <span className="user-status">
                                 <span className="status-dot"></span>
                                 Online

@@ -11,6 +11,8 @@ import { useEffect } from 'react';
 import { useProfile } from './context/ProfileContext';
 import { useLogin } from './context/LoginContext';
 import MyEvents from './pages/MyEvents';
+import MyReagistrations from './pages/MyRagistrations';
+import EditEvent from './pages/EditEvent';
 
 function App() {
 
@@ -36,7 +38,9 @@ function App() {
       <Routes>
         <Route path="/" element={<EventList/>}/>
         <Route path="/MyEvents" element={<MyEvents/>}/>
+        <Route path="/MyRegistrations" element={<MyReagistrations/>}/>
         <Route path="/Event-form" element={<EventForm />}/>
+        <Route path="/MyEvents/EditEvent/:eventId" element={<EditEvent />}/>
         <Route path="/Connexion" element={<Connexion/>}/>
       </Routes>
     </Router> 

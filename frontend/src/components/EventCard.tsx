@@ -1,26 +1,45 @@
-import { registerForEvent } from '../services/eventRegistration'
+import { deRegisterForEvent, registerForEvent } from '../services/eventRegistration'
 import '../styles/EventCard.css'
 import { useProfile } from '../context/ProfileContext'
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useRemovingRegistration } from '../context/RemovingRegistrationContext';
+
 
 export default function EventCard(props:any){
+    
+    const [registrationEffect, setRegistrationEffect] = useState(false);
 
     const {profile} = useProfile();
 
+    
     const navigate = useNavigate();
 
-    const handleRegister = async () =>{
 
-        if (profile?.id){
-            await registerForEvent(props.id, profile.id);
-        }else {
-            navigate('/Connexion');
+    const handleRegister = async (id:string) => {
+        
+        if(profile?.id){
+            await registerForEvent(id, profile.id);
+            setRegistrationEffect(true);
         }
+        
     }
+
+
+    useEffect(() => {
+        
+        if (profile){
+            if (props.registred){
+                setRegistrationEffect(true);
+            }else 
+                setRegistrationEffect(false);
+        }
+    },[profile]);
+
 
     return (
         
-        <div className="event-container">
+        <div className={`event-container ${props.isRemoving ? "removing" : ""}`}>
             <div className="event-card">
                 <div className="image-container">
                     <img src={props.img} alt="Event" className="event-image" />
@@ -40,12 +59,50 @@ export default function EventCard(props:any){
                             </svg>
                             <span>{props.participants} attending</span>
                         </div>
-                        <button className="event-button" onClick={handleRegister}>
-                            Register Now
-                            <svg className="button-icon" viewBox="0 0 24 24">
-                                <path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/>
-                            </svg>
-                        </button>
+                        {props.owner ? (
+
+                            <button className="event-button-owner" onClick={() => navigate('/MyEvents')}>
+                                Modify
+                            </button>
+                        
+                        ): props.registred || registrationEffect? (
+
+                            <div className="success-checkmark">
+                                <div className="check-icon">
+                                    <span className="icon-line line-tip"></span>
+                                    <span className="icon-line line-long"></span>
+                                    <div className="icon-circle"></div>
+                                    <div className="icon-fix"></div>
+                                </div>
+                                <span>Registred</span>
+                            </div>
+                            
+                        ):(
+
+                            <button 
+                                className="event-button"
+                                onClick={props.buttonText.toLowerCase() === "register now" ? (
+
+                                    () => handleRegister(props.id) 
+
+                                    ) : props.buttonText.toLowerCase() === "de-registration" ? (
+
+                                        props.onClick
+
+                                    ):(
+
+                                        props.onUpdateOrDelete
+                                        
+                                )}>
+
+                                {props.buttonText}
+                                    <svg className="button-icon" viewBox="0 0 24 24">
+                                        <path d={props.svgPath}/>
+                                    </svg>
+                            </button>
+                            
+                        )}
+                        
                     </div>
                 </div>
             </div>

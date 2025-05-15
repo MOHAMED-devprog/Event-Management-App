@@ -2,15 +2,18 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const fireBaseConfig = {
-    apiKey: "AIzaSyAOfK-NcDVvgAuIWCmYh0RL-xij1vEQ7KU",
-    authDomain: "event-management-db-ca5bb.firebaseapp.com",
-    projectId: "event-management-db-ca5bb",
-    storageBucket: "event-management-db-ca5bb.firebasestorage.app",
-    messagingSenderId: "590232021067",
-    appId: "1:590232021067:web:b7866b2c05068fa903c5ce",
-    measurementId: "G-463Y62DJGX"
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAINE,
+    projectId: process.env.PROJECT_ID,
+    storageBucket: process.env.STORAGE_BUCKET,
+    messagingSenderId: process.env.MESSAGING_SENDER_ID,
+    appId: process.env.APP_ID,
+    measurementId: process.env.MEASUREMENT_ID
 }
 
 const app = initializeApp(fireBaseConfig);

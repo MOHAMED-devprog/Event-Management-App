@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useLogin } from "../context/LoginContext";
 
 
+
 export default function MyEvents() {
 
     const [data, setData] = useState<Event[] | null | undefined>(null);
@@ -17,6 +18,10 @@ export default function MyEvents() {
     const {login} = useLogin();
 
     const navigate = useNavigate();
+
+    const handleUpdateOrDeleteEvent = (eventId : string) => {
+        navigate(`/MyEvents/EditEvent/${eventId}`);
+    }
 
 
     const fetchMyEvents = async() => {
@@ -38,13 +43,13 @@ export default function MyEvents() {
     
     useEffect(() => {
         fetchMyEvents();
-    },[])
+    },[login]);
 
 
     return (
         <>
             <NavBar/>
-            {!login ? (
+            {!login? (
                 <div className="home-page">
                     <div className="unavailable-message">
                         <h1>You have to sign in to explore the events that tou have created</h1>
@@ -80,6 +85,9 @@ export default function MyEvents() {
                                 location={event.location}
                                 id={event.id}
                                 participants={event.participantsNumber}
+                                buttonText={"Modify"}
+                                svgPath="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                                onUpdateOrDelete={() => handleUpdateOrDeleteEvent(event.id)}
                             /> 
                         ))}
                     </div>

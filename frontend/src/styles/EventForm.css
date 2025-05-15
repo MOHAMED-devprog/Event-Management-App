@@ -220,6 +220,66 @@ input:focus, textarea:focus {
   box-shadow: 0 4px 12px rgba(58, 134, 255, 0.3);
 }
 
+.image-container-form {
+  display:flex;
+  width :100%;
+  justify-content :center;
+}
+
+.update-delete-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap:50px;
+}
+
+.update-button {
+  font-weight: bold;
+  color: white;
+  background-color: #19823c;
+  display: flex;
+  justify-content: center;
+  gap : 10px;
+  align-items: center;
+  padding: 1em 2em;
+  border: none;
+  border-radius: .6rem;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.5s;
+}
+
+.update-button:hover{
+    background-color: #1ebe56;
+    transform: translateY(2px);
+
+}
+
+.delete-button {
+  font-weight: bold;
+  color: white;
+  display: flex;
+  justify-content: center;
+  gap : 10px;
+  align-items: center;
+  background-color: #b93a3a;
+  padding: 1em 2em;
+  border: none;
+  border-radius: .6rem;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.5s;
+}
+
+.delete-button:hover{
+    background-color: #8f3021;
+    transform: translateY(2px);
+
+}
+
+
 @media (max-width: 768px) {
   .event-form-card {
     padding: 2rem;

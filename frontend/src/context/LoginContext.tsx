@@ -24,6 +24,6 @@ export const useLogin = () => {
 
     const context = useContext(loginContext);
 
-    if (!context) throw new Error("useLogin doit être utilisé dans CompteurProvider");
+    if (!context) throw new Error("useLogin should be used on LoginProvider");
     return context;
 }

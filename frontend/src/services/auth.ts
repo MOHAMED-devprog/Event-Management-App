@@ -1,9 +1,8 @@
-
 import { auth, db } from "../firebase"
-import { createUserWithEmailAndPassword , signInWithEmailAndPassword} from "firebase/auth"
-import { setDoc , doc, getDoc } from "firebase/firestore"
-import { type User } from "../types/interfaces"
-import { useProfile } from "../context/ProfileContext"
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import type { User } from "../types/interfaces";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+
 
 
 

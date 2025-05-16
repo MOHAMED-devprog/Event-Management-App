@@ -16,11 +16,11 @@ export const createEvent = async ({title, description, date, location, imageUrl,
 
 }
 
-export const updateEvent = async ({title, description, date, location, imageUrl} : any,
+export const updateEvent = async ({title, description, dateAndTime, location, imageUrl} : any,
      eventId : string) => {
 
         await updateDoc(doc(db, "event", eventId), {
-            date,
+            dateAndTime,
             description,
             imageUrl,
             location,

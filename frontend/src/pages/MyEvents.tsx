@@ -2,27 +2,58 @@ import { useEffect, useState } from "react";
 import { useProfile } from "../context/ProfileContext";
 import NavBar from "../components/NavBar";
 import EventCard from "../components/EventCard";
-import { getAllEvents } from "../services/getAllEvents";
+import { getAllEvents, getEventById } from "../services/getAllEvents";
 import { type Event } from "../types/interfaces";
 import "../styles/EventList.css";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../context/LoginContext";
+import { deleteEvent } from "../services/eventCreation";
 
 
 
 export default function MyEvents() {
 
     const [data, setData] = useState<Event[] | null | undefined>(null);
-    
+    const [isRemovingIds, setIsRemovingIds] = useState<string[]>([]);
+
     const {profile} = useProfile();
     const {login} = useLogin();
 
     const navigate = useNavigate();
 
-    const handleUpdateOrDeleteEvent = (eventId : string) => {
+
+    const handleUpdateEvent = (eventId : string) => {
         navigate(`/MyEvents/EditEvent/${eventId}`);
     }
 
+
+    const handleDeleteEvent = async  (eventId : string) => {
+            const answer = window.confirm("Are you sure you want to delete this Event, this Action can't be undone !");
+            
+            const eventDeleted = await getEventById(eventId);
+            if (answer && eventDeleted) {
+                
+                try {
+                    setIsRemovingIds(prev => [...prev, eventId]);
+                    const imageUrl = new URL(eventDeleted.imageUrl);
+                    const pathname = imageUrl.pathname;
+                    const imageFileName = pathname.substring(pathname.lastIndexOf('/') + 1);
+    
+                    await fetch(`http://localhost:3000/delete/${imageFileName}`,{
+                        method : "DELETE"
+                    });
+                    
+                    await deleteEvent(eventId);
+                    setTimeout(() => setIsRemovingIds(prev => prev.filter(e => e !== eventId)), 700);
+                    fetchMyEvents();
+                    navigate('/MyEvents');
+    
+                }catch(err){
+                    console.log('error deleting image : ' + err);
+                }
+    
+            }
+        }
 
     const fetchMyEvents = async() => {
 
@@ -43,7 +74,7 @@ export default function MyEvents() {
     
     useEffect(() => {
         fetchMyEvents();
-    },[login]);
+    },[]);
 
 
     return (
@@ -81,13 +112,17 @@ export default function MyEvents() {
                                 img={event.imageUrl==="" ? null:event.imageUrl}
                                 title={event.title}
                                 description={event.description}
-                                date={event.date !== undefined? event.date.toDate().toLocaleDateString():Date.now()}
+                                date={event.date.toDate().toISOString().split('T')[0]}
                                 location={event.location}
                                 id={event.id}
                                 participants={event.participantsNumber}
-                                buttonText={"Modify"}
+                                isRemoving={isRemovingIds.includes(event.id)}
+                                buttonModify={"Modify"}
+                                buttonDelete={"Delete"}
                                 svgPath="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                                onUpdateOrDelete={() => handleUpdateOrDeleteEvent(event.id)}
+                                updateAndDelete={true}
+                                onUpdate={() => handleUpdateEvent(event.id)}
+                                onDelete={() => handleDeleteEvent(event.id)}
                             /> 
                         ))}
                     </div>

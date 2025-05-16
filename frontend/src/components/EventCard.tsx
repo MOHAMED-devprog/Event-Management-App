@@ -77,22 +77,19 @@ export default function EventCard(props:any){
                                 <span>Registred</span>
                             </div>
                             
-                        ):(
+                        ): !props.updateAndDelete ? (
 
                             <button 
                                 className="event-button"
-                                onClick={props.buttonText.toLowerCase() === "register now" ? (
+                                onClick={
+                                    props.buttonText.toLowerCase() === "register now" ? (
 
                                     () => handleRegister(props.id) 
 
-                                    ) : props.buttonText.toLowerCase() === "de-registration" ? (
-
-                                        props.onClick
-
                                     ):(
 
-                                        props.onUpdateOrDelete
-                                        
+                                        props.onClick
+             
                                 )}>
 
                                 {props.buttonText}
@@ -100,6 +97,31 @@ export default function EventCard(props:any){
                                         <path d={props.svgPath}/>
                                     </svg>
                             </button>
+                            
+                        ):(
+                            <div className="update-delete-buttons">
+                                <button 
+                                    className="event-button"
+                                    onClick={props.onUpdate}
+                                >
+                                    {props.buttonModify}
+                                        <svg className="button-icon" viewBox="0 0 24 24">
+                                            <path d={props.svgPath}/>
+                                        </svg>
+                                </button>
+
+                                <button 
+                                    type="button"
+                                    className="delete-button"
+                                    onClick={props.onDelete}
+                                >
+                                    {props.buttonDelete}
+                                        <svg className="button-icon" viewBox="0 0 24 24">
+                                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                                        </svg>
+                                </button>
+                            </div>
+                            
                             
                         )}
                         

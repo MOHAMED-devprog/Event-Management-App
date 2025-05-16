@@ -7,7 +7,6 @@ import EventCard from "../components/EventCard";
 import {  getEventById } from "../services/getAllEvents";
 import { type Event } from "../types/interfaces";
 import { useNavigate } from "react-router-dom";
-import { useRemovingRegistration } from "../context/RemovingRegistrationContext";
 import { deRegisterForEvent } from "../services/eventRegistration";
 
 export default function MyReagistrations(){
@@ -130,7 +129,7 @@ export default function MyReagistrations(){
                                         img={event.imageUrl}
                                         title={event.title}
                                         description={event.description}
-                                        date={event.date.toDate().toLocaleDateString()}
+                                        date={event.date.toDate().toISOString().split('T')[0]}
                                         location={event.location}
                                         id={event.id}
                                         participants={event.participantsNumber}

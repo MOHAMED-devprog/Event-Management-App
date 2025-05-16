@@ -1,10 +1,10 @@
 import { useEffect, useState, type FormEvent } from "react";
 import NavBar from "../components/NavBar";
-import { deleteEvent, updateEvent } from "../services/eventCreation";
-import { Timestamp } from "firebase/firestore";
+import { updateEvent } from "../services/eventCreation";
 import { useNavigate, useParams } from "react-router-dom";
 import { getEventById } from "../services/getAllEvents";
 import { type Event } from "../types/interfaces";
+import { Timestamp } from "firebase/firestore";
 
 export default function EventForm() {
 
@@ -18,7 +18,8 @@ export default function EventForm() {
     const [image, setImage] = useState<File | null>(null);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [date, setDate] = useState<Timestamp>(new Timestamp(0,0));
+    const [date, setDate] = useState("");
+    const [time, setTime] = useState("");
     const [location, setLocation] = useState("");
 
 
@@ -46,66 +47,39 @@ export default function EventForm() {
     const handleSubmit = async (e: FormEvent) => {
 
         e.preventDefault();
-        const imageUrl = await handleFileChange();
+        let imageUrl = data?.imageUrl;
 
-        if (data) {
+        if (data && image) {
+            imageUrl = await handleFileChange();
             const prevImageUrl = new URL(data.imageUrl);
-            console.log(prevImageUrl);
             const imageFileName = prevImageUrl.pathname.split('/').pop();
-            console.log(imageFileName);
             
             await fetch(`http://localhost:3000/delete/${imageFileName}`,{
                 method: "DELETE"
             });
         }
+
         
         if (eventId){
-            await updateEvent({title, description, date, location, imageUrl}, eventId);
+            const dateAndTime = Timestamp.fromDate(new Date(`${date}T${time}:00`));
+            await updateEvent({title, description, dateAndTime, location, imageUrl}, eventId);
 
             navigate('/MyEvents');
         }
     }
 
 
-    const handleDelete = async  () => {
-        const answer = window.confirm("Are you sure you want to delete this Evene, this Action can't be undone !");
-
-        if (answer && eventId && data) {
-            
-            try {
-                const imageUrl = new URL(data.imageUrl);
-                const pathname = imageUrl.pathname;
-                const imageFileName = pathname.substring(pathname.lastIndexOf('/') + 1);
-
-                await fetch(`http://localhost:3000/delete/${imageFileName}`,{
-                    method : "DELETE"
-                });
-                
-                await deleteEvent(eventId);
-                navigate('/MyEvents');
-
-            }catch(err){
-                console.log('error deleting image : ' + err);
-            }
-
-        }
-    }
-
     const fetchEventById = async () => {
 
         if (eventId) {
             const docs = await getEventById(eventId);
             if(docs) {
-                setData(docs);
-                const response = await fetch(docs.imageUrl);
-                const blob = await response.blob();
+                setData(docs);   
 
-                const imageFile = new File([blob], "previous_image", {type : blob.type});
-
-                setImage(imageFile);
                 setTitle(docs.title);
                 setDescription(docs.description);
-                setDate(docs.date);
+                setDate(docs.date.toDate().toISOString().split('T')[0]);
+                setTime(docs.date.toDate().toTimeString().split(":").slice(0,2).join(":"));
                 setLocation(docs.location);
             }
         }
@@ -184,8 +158,24 @@ export default function EventForm() {
                                             type="date"
                                             id="date"
                                             required
-                                            onChange={(e) => setDate(Timestamp.fromDate(new Date(e.target.value)))}
-                                            value={date.toDate().toISOString().split('T')[0]} 
+                                            onChange={(e) => setDate(e.target.value)}
+                                            value={date} 
+                                            />
+                                            <svg className="input-icon" viewBox="0 0 24 24">
+                                            <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zM5 7V5h14v2H5zm2 4h10v2H7zm0 4h7v2H7z"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label htmlFor="date">Event Time</label>
+                                        <div className="input-container">
+                                            <input
+                                            type="time"
+                                            id="time"
+                                            required
+                                            onChange={(e) => setTime(e.target.value)}
+                                            value={time}
                                             />
                                             <svg className="input-icon" viewBox="0 0 24 24">
                                             <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zM5 7V5h14v2H5zm2 4h10v2H7zm0 4h7v2H7z"/>
@@ -218,8 +208,7 @@ export default function EventForm() {
                                                 type="file"
                                                 id="event_image"
                                                 accept="image/*"
-                                                required
-                                                onChange={(e) => setImage(e.target.files?.[0] || null)}
+                                                onChange={(e) => setImage(e.target.files?.[0] || image)}
                                             />
                                             <label htmlFor="event_image" className="file-upload-label">
                                                 <svg className="upload-icon" viewBox="0 0 24 24">
@@ -245,14 +234,7 @@ export default function EventForm() {
                                             <svg className="button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">  
                                                 <path d="M17.65 6.35A8 8 0 1 0 19.78 13h-2.09a6 6 0 1 1-1.41-6.36L14 11h7V4l-3.35 2.35z" fill="currentColor"/>
                                             </svg>
-                                        </button>
-
-                                        <button type="button" className="delete-button" onClick={handleDelete}>
-                                            Delete
-                                            <svg className="button-icon" viewBox="0 0 24 24">
-                                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                                            </svg>
-                                        </button>
+                                        </button>   
                                     </div>
 
                                 </form>

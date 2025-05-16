@@ -36,7 +36,7 @@ export const getAllEvents = async (creatorId? : string, title?: string) => {
             }
         });
 
-    }else if (title){
+    }else if (title && title !== ""){
 
         //get Events by title
 
@@ -103,7 +103,7 @@ export const getEventById = async (eventId : string) => {
             id : event.id,
             title : event.data().title,
             description : event.data().description,
-            date : event.data().date,
+            date: event.data().date,
             location : event.data().location,
             imageUrl : event.data().imageUrl,
             creatorId : event.data().creatorId,

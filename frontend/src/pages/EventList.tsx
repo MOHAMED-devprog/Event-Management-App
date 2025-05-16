@@ -7,7 +7,6 @@ import "../styles/EventList.css"
 import { useSearchEvent } from "../context/SearchEventContext";
 import { getAllRegistrations } from "../services/getAllRegistrations";
 import { useProfile } from "../context/ProfileContext";
-import { useRemovingRegistration } from "../context/RemovingRegistrationContext";
 
 
 
@@ -20,8 +19,7 @@ export default function EventList(){
     const [loading, setLoading] = useState(true);
     const [noEvents, setNoEvents] = useState(false);
 
-    const {eventSearch} = useSearchEvent();
-    const {updateIsRemoving} = useRemovingRegistration();
+    const {eventSearch} = useSearchEvent(); 
     const {profile} = useProfile();
 
 
@@ -32,7 +30,9 @@ export default function EventList(){
             
             if (docs.length > 0)
             {
+                console.log(docs);
                 setEventData(docs);
+                setNoEvents(false);
             }else{
                 setNoEvents(true);
             }
@@ -54,10 +54,10 @@ export default function EventList(){
     useEffect(() => {  
         
         if (eventSearch !== ""){
-            updateIsRemoving(false);
             fetchAllEvents("", eventSearch);
         }else
             fetchAllEvents("", "");
+
 
     }, [eventSearch]);
 
@@ -101,7 +101,7 @@ export default function EventList(){
                                     img={event.imageUrl==="" ? null:event.imageUrl}
                                     title={event.title}
                                     description={event.description}
-                                    date={event.date.toDate().toLocaleDateString()}
+                                    date={event.date.toDate().toISOString().split('T')[0]}
                                     location={event.location}
                                     id={event.id}
                                     participants={event.participantsNumber}

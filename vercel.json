@@ -17,9 +17,14 @@
       "dest": "backend/$1"
     },
     {
+      "src": "/images/(.*)",
+      "dest": "backend/images/$1"
+    },
+    {
       "src": "/(.*)",
       "dest": "frontend/$1"
     }
   ]
 }
+
 

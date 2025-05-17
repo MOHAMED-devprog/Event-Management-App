@@ -8,6 +8,10 @@ import "../styles/EventList.css";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../context/LoginContext";
 import { deleteEvent } from "../services/eventCreation";
+import '../styles/MyEvents.css'
+import Swal from 'sweetalert2'
+
+
 
 
 
@@ -27,32 +31,46 @@ export default function MyEvents() {
     }
 
 
-    const handleDeleteEvent = async  (eventId : string) => {
-            const answer = window.confirm("Are you sure you want to delete this Event, this Action can't be undone !");
-            
-            const eventDeleted = await getEventById(eventId);
-            if (answer && eventDeleted) {
+    const handleDeleteEvent = async  (eventId : string) => {  
+
+             Swal.fire({
+                title: 'Are you sure?',
+                text: "This action can't be undone!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#3b82f6',
+                confirmButtonText: 'Delete'
+
+                }).then(async (result) => {
+
+                    if (result.isConfirmed) {
+                        
+                        const eventDeleted = await getEventById(eventId);
+                        if (eventDeleted) {
+                            
+                            try {
+                                setIsRemovingIds(prev => [...prev, eventId]);
+                                const imageUrl = new URL(eventDeleted.imageUrl);
+                                const pathname = imageUrl.pathname;
+                                const imageFileName = pathname.substring(pathname.lastIndexOf('/') + 1);
                 
-                try {
-                    setIsRemovingIds(prev => [...prev, eventId]);
-                    const imageUrl = new URL(eventDeleted.imageUrl);
-                    const pathname = imageUrl.pathname;
-                    const imageFileName = pathname.substring(pathname.lastIndexOf('/') + 1);
-    
-                    await fetch(`http://localhost:3000/delete/${imageFileName}`,{
-                        method : "DELETE"
-                    });
-                    
-                    await deleteEvent(eventId);
-                    setTimeout(() => setIsRemovingIds(prev => prev.filter(e => e !== eventId)), 700);
-                    fetchMyEvents();
-                    navigate('/MyEvents');
-    
-                }catch(err){
-                    console.log('error deleting image : ' + err);
-                }
-    
-            }
+                                await fetch(`http://localhost:3000/delete/${imageFileName}`,{
+                                    method : "DELETE"
+                                });
+                                
+                                await deleteEvent(eventId);
+                                setTimeout(() => setIsRemovingIds(prev => prev.filter(e => e !== eventId)), 700);
+                                fetchMyEvents();
+                                navigate('/MyEvents');
+                
+                            }catch(err){
+                                console.log('error deleting image : ' + err);
+                            }
+                
+                        }
+                    }
+            });         
         }
 
     const fetchMyEvents = async() => {
@@ -113,6 +131,7 @@ export default function MyEvents() {
                                 title={event.title}
                                 description={event.description}
                                 date={event.date.toDate().toISOString().split('T')[0]}
+                                time={event.date.toDate().toLocaleTimeString()}
                                 location={event.location}
                                 id={event.id}
                                 participants={event.participantsNumber}

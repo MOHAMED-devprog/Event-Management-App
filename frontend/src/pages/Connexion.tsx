@@ -1,5 +1,5 @@
 
-import { useState, type FormEvent } from "react"
+import { useEffect, useState, type FormEvent } from "react"
 import { registerUser, loginUser } from "../services/auth";
 import { useLogin} from "../context/LoginContext";
 import { useNavigate } from "react-router-dom";
@@ -26,8 +26,8 @@ export default function Connexion(){
         e.preventDefault();
 
         try {
-
-            const user : User | null = islogin ? await loginUser({email}, password) : await registerUser({username, email}, password);
+            const id ="";
+            const user : User | null = islogin ? await loginUser({id, email}, password) : await registerUser({id, username, email}, password);
 
             if (user){
 
@@ -39,71 +39,95 @@ export default function Connexion(){
             }
             setErrorAuthentification("");
         }catch (e){
-            setErrorAuthentification('Invalid E-mail or Password !');
+            if (islogin)
+                setErrorAuthentification('Invalid E-mail or Password !');
+            else
+                setErrorAuthentification('This E-mail is already used !');
             console.log("error creating user : "+ e);
         }
         
     }
 
+    useEffect(() => {
+        setErrorAuthentification("");
+    },[islogin])
+
 
     return (
-        <div className="page-container">
-
-            <button className="back-home" onClick={() => navigate('/')}>
+        <div className="auth-container">
+            <button className="back-button" onClick={() => navigate('/')}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                 </svg>
-                <span>Back</span>
+                Back to home
             </button>
 
-            <div className="form-container">
-                <h2>{islogin ? "Login" : "Sign in"}</h2>
+            <div className="auth-card">
+                <div className="auth-header">
+                    <h2>{islogin ? "Welcome Back" : "Create Account"}</h2>
+                    <p>{islogin ? "Log in to your account" : "Get started with your account"}</p>
+                </div>
 
-                <form onSubmit={handleSubmit}>
-                    {!islogin && 
-                        <>  
-                            <label>Username</label>
-                            <input 
-                                type="text" 
-                                name="username" 
-                                placeholder="Username" 
-                                required
-                                onChange={(e) => setUsername(e.target.value)}
-                            /><br></br>
-                        </>
-                    }
+                <form onSubmit={handleSubmit} className="auth-form">
+                {!islogin && (
+                    <div className="form-group">
+                        <label>Username</label>
+                        <input
+                            type="text"
+                            name="username"
+                            placeholder="Enter your username"
+                            required
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                    </div>
+                )}
 
-                    <label>E-mail</label>
-                    <input 
-                        type="email" 
-                        name="email" 
-                        placeholder="xyz@example.com"
+                    <div className="form-group">
+                        <label>Email Address</label>
+                        <input
+                        type="email"
+                        name="email"
+                        placeholder="your@email.com"
                         required
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)} 
-                    /><br></br>
-                    <label>Password</label>
-                    <input 
-                        type="password" 
-                        placeholder="Password" 
+                        onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Password</label>
+                        <input
+                        type="password"
+                        placeholder="Enter your password"
                         name="password"
                         required
                         minLength={8}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                    /><br></br>
-                    <span className="authentification-error">{errorAuthentification}</span>
-                    <button type="submit">
-                        {islogin ? "Login" : "Submit"}
+                        />
+                    </div>
+
+                {errorAuthentification && (
+                    <div className="error-message">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                        </svg>
+                        {errorAuthentification}
+                    </div>
+                )}
+
+                    <button type="submit" className="submit-button">
+                        {islogin ? "Log In" : "Sign Up"}
                     </button>
                 </form>
-                <div className="toggle-section">
-                    <p>{islogin ? "Don't have an account ?" : "Already Have one ?"}</p>
-                    <button onClick={switchToggle}>{islogin ? "Sign up" : "Login"}</button>
+
+                <div className="auth-footer">
+                    <p>{islogin ? "Don't have an account?" : "Already have an account?"}</p>
+                    <button onClick={switchToggle} className="toggle-button">
+                        {islogin ? "Sign up here" : "Log in here"}
+                    </button>
                 </div>
-                    
-                
             </div>
-        </div>    
+        </div>
     )
 }

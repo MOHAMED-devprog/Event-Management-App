@@ -12,9 +12,15 @@
     }
   ],
   "routes": [
+     {
+      "src": "/api/images",
+      "methods": ["POST", "GET"],
+      "dest": "backend/server.js"
+    },
     {
-      "src": "/api/(.*)",
-      "dest": "backend/$1"
+      "src": "/api/delete/(.*)",
+      "methods": ["DELETE"],
+      "dest": "backend/server.js"
     },
     {
       "src": "/images/(.*)",

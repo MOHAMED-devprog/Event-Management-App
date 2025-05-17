@@ -55,7 +55,7 @@ export default function MyEvents() {
                                 const pathname = imageUrl.pathname;
                                 const imageFileName = pathname.substring(pathname.lastIndexOf('/') + 1);
                 
-                                await fetch(`/api/delete/${imageFileName}`,{
+                                await fetch(`http://localhost:3000/api/delete/${imageFileName}`,{
                                     method : "DELETE"
                                 });
                                 

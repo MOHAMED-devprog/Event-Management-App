@@ -14,7 +14,12 @@
   "routes": [
      {
       "src": "/api/images",
-      "methods": ["POST", "GET"],
+      "methods": ["POST"],
+      "dest": "backend/server.js"
+    },
+     {
+      "src": "/api/upload/images",
+      "methods": ["GET"],
       "dest": "backend/server.js"
     },
     {

@@ -29,7 +29,7 @@ export default function EventForm() {
             const Image = new FormData();
             Image.append("image", image);
 
-            const response = await fetch("http://localhost:3000/images", {
+            const response = await fetch("/api/images", {
 
                 method: "POST",
                 body: Image,

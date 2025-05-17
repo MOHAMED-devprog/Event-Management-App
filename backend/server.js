@@ -19,8 +19,8 @@ const storage = multer.diskStorage({
 const upload = multer({storage});
 
 
-app.post('/api/images', upload.single("image"), (req, res) => {
-    res.json({url : `/api/images/${req.file.filename}`});
+app.post('/api/upload/images', upload.single("image"), (req, res) => {
+    res.json({url : `http://localhost:3000/api/images/${req.file.filename}`});
 });
 
 app.delete('/api/delete/:filename', (req, res) => {
@@ -36,5 +36,9 @@ app.delete('/api/delete/:filename', (req, res) => {
 
 });
 
+
+app.listen(3000, () => {
+    console.log("server is running on port 3000");
+})
 
 module.exports = app;

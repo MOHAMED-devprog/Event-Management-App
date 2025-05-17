@@ -2,5 +2,19 @@ body{
     margin: 0;
     position: relative;
     background-color: rgb(147, 165, 192);
+    line-height: 1.5;
+    color: #334155;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+#root{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+ 
 }

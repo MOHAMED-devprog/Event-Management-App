@@ -84,7 +84,7 @@ label {
   transform: none;
 }
 
-input, textarea {
+.input-container input,.textarea-container textarea {
   width: 100%;
   box-sizing: border-box;
   padding: 0.75rem 1rem 0.75rem 3rem;
@@ -226,7 +226,7 @@ input:focus, textarea:focus {
   justify-content :center;
 }
 
-.update-delete-buttons {
+.update-cancel-buttons {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -254,6 +254,34 @@ input:focus, textarea:focus {
     background-color: #1ebe56;
     transform: translateY(2px);
 
+}
+
+.cancel-button {
+  font-weight: bold;
+  color: white;
+  background-color: #3b82f6;
+  display: flex;
+  justify-content: center;
+  gap : 10px;
+  align-items: center;
+  padding: 1em 2em;
+  border: none;
+  border-radius: .6rem;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.5s;
+}
+
+.cancel-button:hover{
+    background-color: rgb(63, 174, 225);
+    transform: translateY(2px);
+
+}
+
+.cancel-button svg{
+  height: 16px;
+  width: 16px;
 }
 
 .delete-button {

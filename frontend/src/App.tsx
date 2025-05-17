@@ -1,5 +1,4 @@
 import './styles/App.css'
-
 import './styles/NavBar.css'
 import './styles/Connexion.css'
 import './styles/EventForm.css'

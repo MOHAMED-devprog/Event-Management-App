@@ -8,6 +8,7 @@ import {  getEventById } from "../services/getAllEvents";
 import { type Event } from "../types/interfaces";
 import { useNavigate } from "react-router-dom";
 import { deRegisterForEvent } from "../services/eventRegistration";
+import '../styles/MyRegistrations.css'
 
 export default function MyReagistrations(){
 
@@ -130,12 +131,13 @@ export default function MyReagistrations(){
                                         title={event.title}
                                         description={event.description}
                                         date={event.date.toDate().toISOString().split('T')[0]}
+                                        time={event.date.toDate().toLocaleTimeString()}
                                         location={event.location}
                                         id={event.id}
                                         participants={event.participantsNumber}
                                         buttonText={"de-registration"}
                                         svgPath="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                                        onClick={() => handleRemoving(event.id)}
+                                        onRemoveRegistration={() => handleRemoving(event.id)}
                                         isRemoving={isRmovingIds.includes(event.id)}
                                     
                                     />

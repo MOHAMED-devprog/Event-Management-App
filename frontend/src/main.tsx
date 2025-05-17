@@ -3,20 +3,21 @@ import { createRoot } from 'react-dom/client'
 import { LoginProvider } from './context/LoginContext.tsx'
 import { ProfileProvider } from './context/ProfileContext.tsx'
 import App from './App.tsx'
-import { SearchEventProvider } from './context/SearchEventContext.tsx'
+import { ActiveLinkProvider } from './context/ActiveLinkContext.tsx'
+
 
 
 createRoot(document.getElementById('root')!).render(
 
   <StrictMode>
 
-        <SearchEventProvider>
+        <ActiveLinkProvider>
           <ProfileProvider>
             <LoginProvider>
               <App/>
             </LoginProvider>
           </ProfileProvider>
-        </SearchEventProvider>
+        </ActiveLinkProvider>
       
   </StrictMode>
 

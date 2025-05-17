@@ -3,6 +3,7 @@ import '../styles/EventCard.css'
 import { useProfile } from '../context/ProfileContext'
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useLogin } from '../context/LoginContext';
 
 
 
@@ -11,7 +12,7 @@ export default function EventCard(props:any){
     const [registrationEffect, setRegistrationEffect] = useState(false);
 
     const {profile} = useProfile();
-
+    const {login} = useLogin();
     
     const navigate = useNavigate();
 
@@ -48,6 +49,7 @@ export default function EventCard(props:any){
                 <div className="event-content">
                     <div className="event-meta">
                         <span className="event-date">{props.date}</span>
+                        <span className="event-time">{props.time}</span>
                         <span className="event-location">{props.location}</span>
                     </div>
                     <h3 className="event-title">{props.title}</h3>
@@ -84,11 +86,11 @@ export default function EventCard(props:any){
                                 onClick={
                                     props.buttonText.toLowerCase() === "register now" ? (
 
-                                    () => handleRegister(props.id) 
+                                    login ? () => handleRegister(props.id) : () => navigate('/Connexion')
 
                                     ):(
 
-                                        props.onClick
+                                        props.onRemoveRegistration
              
                                 )}>
 

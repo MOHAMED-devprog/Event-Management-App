@@ -1,11 +1,13 @@
 import { Link, useNavigate } from "react-router-dom"
 import { useLogin } from "../context/LoginContext";
 import { useProfile } from "../context/ProfileContext";
-import { useSearchEvent } from "../context/SearchEventContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
+import { useActiveLink } from "../context/ActiveLinkContext";
 
 export default function NavBar() {
+
+    const {activeLink, updateActiveLink} = useActiveLink();
 
     //profile state :
     /*
@@ -21,13 +23,6 @@ export default function NavBar() {
     */
     const {login, switchLogin} = useLogin();
 
-
-    //updateSearchedEvent setter for the eventSearch state :
-    /*
-      * updating the state for filtering the Event list For the giving input title
-    */
-    const {updateSearchEvent} = useSearchEvent();
- 
     const navigate = useNavigate();
 
     const handleLogout = async () => {
@@ -36,6 +31,7 @@ export default function NavBar() {
         updateName(null);
         switchLogin(false);
     }
+
     
     
     return (
@@ -47,53 +43,54 @@ export default function NavBar() {
                     <Link to="/" className="logo">Events</Link>
                 </div>
                 
-                <div className="navbar-search">
-                    <div className="search-container">
-                        <svg className="search-icon" viewBox="0 0 24 24">
-                        <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-                        </svg>
-                        <input 
-                            className="search-input" 
-                            type="text" 
-                            placeholder="Search events..." 
-                            aria-label="Search events"
-                            onChange={(e) => updateSearchEvent(e.target.value)}
-                        />
-                    </div>
-                </div>
-                
                 <ul className="navbar-links">
-                    <li>
-                        <Link to="/" className="nav-link">
+                    <li onClick={() => updateActiveLink("/")}>
+                        <Link    
+                            to="/" 
+                            className={`nav-link ${activeLink === '/' ? "active" : ""}`}                            
+                        >
                             <svg className="nav-icon" viewBox="0 0 24 24">
                                 <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
                             </svg>
                             <span>Home</span>
+                            <div className="tooltip">Home</div>
                         </Link>
                     </li>
-                    <li>
-                        <Link to="/Event-form" className="nav-link">
+                    <li onClick={() => updateActiveLink("/Event-form")}>
+                        <Link 
+                            to="/Event-form" 
+                            className={`nav-link ${activeLink === '/Event-form' ? "active" : ""}`}  
+                        >
                             <svg className="nav-icon" viewBox="0 0 24 24">
                                 <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
                             </svg>
                             <span>Create Event</span>
+                            <div className="tooltip">Create Event</div>
                         </Link>
                     </li>
-                    <li>
-                        <Link to="/MyRegistrations" className="nav-link">
+                    <li onClick={() => updateActiveLink("/MyRegistrations")}>
+                        <Link 
+                            to="/MyRegistrations" 
+                            className={`nav-link ${activeLink === '/MyRegistrations' ? "active" : ""}`}
+                        >
                             <svg className="nav-icon" viewBox="0 0 24 24">
                                 <path d="M19 4h-1V3a1 1 0 0 0-2 0v1H8V3a1 1 0 0 0-2 0v1H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/>
                                 <path d="M12 12a1 1 0 1 0-1-1 1 1 0 0 0 1 1zm0 3a1 1 0 1 0-1-1 1 1 0 0 0 1 1zm3-3a1 1 0 1 0-1-1 1 1 0 0 0 1 1zm0 3a1 1 0 1 0-1-1 1 1 0 0 0 1 1zm-6 0a1 1 0 1 0-1-1 1 1 0 0 0 1 1z"/>
                             </svg>
                             <span>My Registrations</span>
+                            <div className="tooltip">My Registrations</div>
                         </Link>
                     </li>
-                    <li>
-                        <Link to="/MyEvents" className="nav-link">
+                    <li onClick={() => updateActiveLink("/MyEvents")}>
+                        <Link 
+                            to="/MyEvents" 
+                            className={`nav-link ${activeLink === '/MyEvents' ? "active" : ""}`}                           
+                        >
                             <svg className="nav-icon" viewBox="0 0 24 24">
                                 <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
                             </svg>
                             <span>My Events</span>
+                            <div className="tooltip">My Events</div>
                         </Link>
                     </li>
                 </ul>
@@ -102,9 +99,14 @@ export default function NavBar() {
                 {login && profile? (
                     <div className="user-menu">
                         <div className="user-info-section">
-                            <div className="user-avatar">
-                            {profile?.username?.charAt(0).toUpperCase()}
+                            <div className="user-avatar" style={{backgroundColor : "#3b82f6"}}>
+                                <svg className="profile-icon" viewBox="0 0 24 24" fill="#3b82f6" stroke="currentColor">
+                                    <circle cx="12" cy="7" r="4" strokeWidth="1.5"/>
+                                    <path d="M5 21v-2a7 7 0 0 1 14 0v2" strokeWidth="1.5" strokeLinecap="round"/>
+                                </svg>
+                                <div className="tooltip">{profile.username}</div>
                             </div>
+                            
                             <div className="user-info">
                                 <span className="username">{profile.username}</span>
                                 <span className="user-status">
@@ -119,10 +121,10 @@ export default function NavBar() {
                         
                         <div className="user-menu-dropdown" onClick={handleLogout}>
                             <div className="dropdown-item">
-                            <svg className="logout-icon" viewBox="0 0 24 24">
-                                <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                            </svg>
-                            <span>Sign Out</span>
+                                <svg className="logout-icon" viewBox="0 0 24 24">
+                                    <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                </svg>
+                                <span>Sign Out</span>
                             </div>
                         </div>
 

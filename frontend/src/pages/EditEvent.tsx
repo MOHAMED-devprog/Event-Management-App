@@ -228,13 +228,19 @@ export default function EventForm() {
                                             style={{objectFit : "cover", borderRadius:"20px"}}/>
                                     </div>
 
-                                    <div className="update-delete-buttons">
+                                    <div className="update-cancel-buttons">
                                         <button type="submit" className="update-button">
                                             Update
                                             <svg className="button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">  
                                                 <path d="M17.65 6.35A8 8 0 1 0 19.78 13h-2.09a6 6 0 1 1-1.41-6.36L14 11h7V4l-3.35 2.35z" fill="currentColor"/>
                                             </svg>
-                                        </button>   
+                                        </button>
+                                        <button className="cancel-button" onClick={() => navigate('/MyEvents')}>
+                                            Cancel
+                                            <svg className="cancel-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <path d="M5 5l14 14M5 19L19 5" strokeWidth="1" strokeLinecap="square"/>
+                                            </svg>
+                                        </button>      
                                     </div>
 
                                 </form>

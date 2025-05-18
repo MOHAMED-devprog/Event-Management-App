@@ -2,7 +2,10 @@ const path = require('path');
 const cors = require('cors');
 const multer = require('multer');
 const express = require('express');
+const cron = require('node-cron');
+require('dotenv').config();
 const fs = require('fs');
+const sendEventReminder = require('./reminderEvents');
 
 const app = express();
 
@@ -37,8 +40,16 @@ app.delete('/api/delete/:filename', (req, res) => {
 });
 
 
-app.listen(3000, () => {
+cron.schedule('0 9 * * *', async () => {
+    console.log("Running every day at 9:00 AM");
+    await sendEventReminder();
+});
+    
+
+
+
+app.listen(process.env.PORT, () => {
     console.log("server is running on port 3000");
-})
+});
 
 module.exports = app;

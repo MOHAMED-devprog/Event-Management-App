@@ -18,7 +18,7 @@ export default function EventForm() {
     const [image, setImage] = useState<File | null>(null);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [date, setDate] = useState("");
+    const [eventDate, setEventDate] = useState("");
     const [time, setTime] = useState("");
     const [location, setLocation] = useState("");
 
@@ -61,8 +61,8 @@ export default function EventForm() {
 
         
         if (eventId){
-            const dateAndTime = Timestamp.fromDate(new Date(`${date}T${time}:00`));
-            await updateEvent({title, description, dateAndTime, location, imageUrl}, eventId);
+            const date = Timestamp.fromDate(new Date(`${eventDate}T${time}:00`));
+            await updateEvent({title, description, date, location, imageUrl}, eventId);
 
             navigate('/MyEvents');
         }
@@ -78,7 +78,7 @@ export default function EventForm() {
 
                 setTitle(docs.title);
                 setDescription(docs.description);
-                setDate(docs.date.toDate().toISOString().split('T')[0]);
+                setEventDate(docs.date.toDate().toISOString().split('T')[0]);
                 setTime(docs.date.toDate().toTimeString().split(":").slice(0,2).join(":"));
                 setLocation(docs.location);
             }
@@ -158,8 +158,8 @@ export default function EventForm() {
                                             type="date"
                                             id="date"
                                             required
-                                            onChange={(e) => setDate(e.target.value)}
-                                            value={date} 
+                                            onChange={(e) => setEventDate(e.target.value)}
+                                            value={eventDate} 
                                             />
                                             <svg className="input-icon" viewBox="0 0 24 24">
                                             <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zM5 7V5h14v2H5zm2 4h10v2H7zm0 4h7v2H7z"/>

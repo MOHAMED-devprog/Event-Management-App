@@ -7,6 +7,9 @@ frontend/node_modules/
 .env
 .env.local
 
+# json files
+.json
+
 # Build directories
 dist/
 build/

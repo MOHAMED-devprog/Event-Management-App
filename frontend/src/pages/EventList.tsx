@@ -91,17 +91,20 @@ export default function EventList(){
                     </div>
                 </div>
             </div>
-            <div className="home-page-events">
+            
 
                 
                 
                     {loading ? (
-                        <div className="loading-wave">
-                            <div className="loading-bar"></div>
-                            <div className="loading-bar"></div>
-                            <div className="loading-bar"></div>
-                            <div className="loading-bar"></div>
+                        <div className="loading-container">
+                            <div className="loading-wave">
+                                <div className="loading-bar"></div>
+                                <div className="loading-bar"></div>
+                                <div className="loading-bar"></div>
+                                <div className="loading-bar"></div>
+                            </div>
                         </div>
+                        
                     ): noEvents ? (
 
                         <h1 className="unavailable-message">
@@ -109,32 +112,34 @@ export default function EventList(){
                         </h1>
 
                     ):(
+                        <div className="home-page-events">
                              
-                        <div className="events-container">
+                            <div className="events-container">
 
-                            {eventData.map((event, index) => {
-                                const isRegistred = registrationData.includes(event.id);
-                                const isOwner = profile === null ? null: profile.id === event.creatorId;
+                                {eventData.map((event, index) => {
+                                    const isRegistred = registrationData.includes(event.id);
+                                    const isOwner = profile === null ? null: profile.id === event.creatorId;
 
-                                return (
-                                <EventCard key={index}
-                                    img={event.imageUrl==="" ? null:event.imageUrl}
-                                    title={event.title}
-                                    description={event.description}
-                                    date={event.date.toDate().toISOString().split('T')[0]}
-                                    time={event.date.toDate().toLocaleTimeString()}
-                                    location={event.location}
-                                    id={event.id}
-                                    participants={event.participantsNumber}
-                                    registred={isRegistred}
-                                    svgPath="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"
-                                    buttonText={isRegistred ? "" : "Register now" }
-                                    owner={isOwner}
-                                /> )
-                            })}
+                                    return (
+                                    <EventCard key={index}
+                                        img={event.imageUrl==="" ? null:event.imageUrl}
+                                        title={event.title}
+                                        description={event.description}
+                                        date={event.date.toDate().toISOString().split('T')[0]}
+                                        time={event.date.toDate().toLocaleTimeString()}
+                                        location={event.location}
+                                        id={event.id}
+                                        participants={event.participantsNumber}
+                                        registred={isRegistred}
+                                        svgPath="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"
+                                        buttonText={isRegistred ? "" : "Register now" }
+                                        owner={isOwner}
+                                    /> )
+                                })}
+                            </div>
                         </div>
                     )} 
-            </div>
+            
             
             
         </>

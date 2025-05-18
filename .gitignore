@@ -8,7 +8,7 @@ frontend/node_modules/
 .env.local
 
 # json files
-firebaseKeyAdmin.json
+firebase-key.json
 
 # Build directories
 dist/

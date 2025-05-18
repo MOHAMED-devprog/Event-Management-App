@@ -1,6 +1,6 @@
 const admin = require('firebase-admin');
 const nodemailer = require("nodemailer");
-const serviceAccount = require('./firebaseKeyAdmin.json');
+const serviceAccount = require('./firebase-key.json');
 require('dotenv').config();
 
 admin.initializeApp({

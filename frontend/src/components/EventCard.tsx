@@ -4,6 +4,7 @@ import { useProfile } from '../context/ProfileContext'
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useLogin } from '../context/LoginContext';
+import { useActiveLink } from '../context/ActiveLinkContext';
 
 
 
@@ -13,6 +14,7 @@ export default function EventCard(props:any){
 
     const {profile} = useProfile();
     const {login} = useLogin();
+    const {updateActiveLink} = useActiveLink();
     
     const navigate = useNavigate();
 
@@ -63,7 +65,7 @@ export default function EventCard(props:any){
                         </div>
                         {props.owner ? (
 
-                            <button className="event-button-owner" onClick={() => navigate('/MyEvents')}>
+                            <button className="event-button-owner" onClick={() => {navigate('/MyEvents'); updateActiveLink('/MyEvents')}}>
                                 Modify
                             </button>
                         

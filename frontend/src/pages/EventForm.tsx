@@ -1,15 +1,17 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import NavBar from "../components/NavBar";
 import { createEvent } from "../services/eventCreation";
 import { useProfile } from "../context/ProfileContext";
 import { Timestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../context/LoginContext";
+import { useActiveLink } from "../context/ActiveLinkContext";
 
 export default function EventForm() {
 
     const {profile} = useProfile();
     const {login} = useLogin();
+    const {activeLink, updateActiveLink} = useActiveLink();
 
     const  navigate = useNavigate();
 
@@ -37,7 +39,7 @@ export default function EventForm() {
             });
 
             const data = await response.json();
-            return data.url;
+            return data;
         }
         
     };
@@ -47,28 +49,51 @@ export default function EventForm() {
     const handleSubmit = async (e: FormEvent) => {
 
         e.preventDefault();
-        const imageUrl = (await handleFileChange());
+        const imageData = await handleFileChange();
+        const imageUrl = imageData.url;
+        const imageId = imageData.image_id;
+
         const creatorId = profile?.id;
         const id :string = creatorId + "_" +imageUrl;
 
         if (creatorId){
             const date = Timestamp.fromDate(new Date(`${eventDate}T${time}`));
-            console.log(date + ' : '+ typeof date);
-            await createEvent({id, title, description, date, location, imageUrl, creatorId, participantsNumber});
+            await createEvent({id, title, description, date, location, imageUrl, imageId, creatorId, participantsNumber});
         }
 
-        navigate('/');
+        navigate('/MyEvents');
+        updateActiveLink('/MyEvents');
 
     } 
     
+    useEffect(() => {
+        updateActiveLink('/Event-form');
+    },[activeLink]);
+
     return (
         <>
             <NavBar />
             {!login ? (
+                <div className="auth-required-container">
 
-                <div className="unavailable-create-event-message">
-                    <h1>You can't create an event, you have to sign in</h1>
-                    <button onClick={() => navigate('/Connexion')}>Connexion</button>
+                    <div className="auth-required-card">
+                        <svg className="auth-icon" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" fill="#3b82f6" />
+                            <path d="M12 6v8m0 4v0" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+                        </svg>
+                        <h2 className="auth-title">Sign In Required</h2>
+                        <p className="auth-subtitle">You need to be signed in to create new events</p>
+                        <button 
+                            className="auth-button" 
+                            onClick={() => navigate('/Connexion')}
+                        >
+                            Sign In
+                            <svg className="button-icon" viewBox="0 0 24 24">
+                                <path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    
                 </div>
             ):(    
                 <div className="event-form-page">
@@ -183,6 +208,8 @@ export default function EventForm() {
                                     </div>
                                 </div>
 
+                               
+
                                 <button type="submit" className="submit-button">
                                     Create Event
                                     <svg className="button-icon" viewBox="0 0 24 24">
@@ -200,3 +227,5 @@ export default function EventForm() {
         
     )
 }
+
+

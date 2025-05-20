@@ -27,6 +27,7 @@ export const getAllEvents = async (creatorId? : string, title?: string) => {
                     description : event.data().description,
                     date : event.data().date,
                     location : event.data().location,
+                    imageId :event.data().imageId,
                     imageUrl : event.data().imageUrl,
                     creatorId : event.data().creatorId,
                     participantsNumber : event.data().participantsNumber
@@ -51,6 +52,7 @@ export const getAllEvents = async (creatorId? : string, title?: string) => {
                     description : event.data().description,
                     date : event.data().date,
                     location : event.data().location,
+                    imageId :event.data().imageId,
                     imageUrl : event.data().imageUrl,
                     creatorId : event.data().creatorId,
                     participantsNumber : event.data().participantsNumber
@@ -76,6 +78,7 @@ export const getAllEvents = async (creatorId? : string, title?: string) => {
                         description : event.data().description,
                         date : event.data().date,
                         location : event.data().location,
+                        imageId :event.data().imageId,
                         imageUrl : event.data().imageUrl,
                         creatorId : event.data().creatorId,
                         participantsNumber : event.data().participantsNumber
@@ -105,6 +108,7 @@ export const getEventById = async (eventId : string) => {
             description : event.data().description,
             date: event.data().date,
             location : event.data().location,
+            imageId :event.data().imageId,
             imageUrl : event.data().imageUrl,
             creatorId : event.data().creatorId,
             participantsNumber : event.data().participantsNumber

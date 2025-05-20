@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getEventById } from "../services/getAllEvents";
 import { type Event } from "../types/interfaces";
 import { Timestamp } from "firebase/firestore";
+import { useActiveLink } from "../context/ActiveLinkContext";
 
 export default function EventForm() {
 
@@ -14,6 +15,7 @@ export default function EventForm() {
 
     const  navigate = useNavigate();
 
+    const {updateActiveLink} = useActiveLink();
 
     const [image, setImage] = useState<File | null>(null);
     const [title, setTitle] = useState("");
@@ -37,7 +39,7 @@ export default function EventForm() {
             });
 
             const data = await response.json();
-            return data.url;
+            return data;
         }
         
     };
@@ -48,23 +50,35 @@ export default function EventForm() {
 
         e.preventDefault();
         let imageUrl = data?.imageUrl;
+        let imageId = data?.imageId;
 
         if (data && image) {
-            imageUrl = await handleFileChange();
-            const prevImageUrl = new URL(data.imageUrl);
-            const imageFileName = prevImageUrl.pathname.split('/').pop();
+            const imageData =  await handleFileChange();
+            imageUrl = imageData.url;
+            imageId = imageData.image_id;
             
-            await fetch(`http://localhost:3000/api/delete/${imageFileName}`,{
-                method: "DELETE"
+            const imageFileName = data.imageId;
+            
+            await fetch("http://localhost:3000/api/delete",{
+                method: "DELETE",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body : JSON.stringify({
+                    public_id : imageFileName,
+                }),
             });
         }
 
         
         if (eventId){
             const date = Timestamp.fromDate(new Date(`${eventDate}T${time}:00`));
-            await updateEvent({title, description, date, location, imageUrl}, eventId);
+            await updateEvent({title, description, date, location, imageId, imageUrl}, eventId);
 
             navigate('/MyEvents');
+            updateActiveLink('/MyEvents');
         }
     }
 
@@ -75,7 +89,6 @@ export default function EventForm() {
             const docs = await getEventById(eventId);
             if(docs) {
                 setData(docs);   
-
                 setTitle(docs.title);
                 setDescription(docs.description);
                 setEventDate(docs.date.toDate().toISOString().split('T')[0]);
@@ -235,7 +248,10 @@ export default function EventForm() {
                                                 <path d="M17.65 6.35A8 8 0 1 0 19.78 13h-2.09a6 6 0 1 1-1.41-6.36L14 11h7V4l-3.35 2.35z" fill="currentColor"/>
                                             </svg>
                                         </button>
-                                        <button className="cancel-button" onClick={() => navigate('/MyEvents')}>
+                                        <button 
+                                            className="cancel-button" 
+                                            onClick={() => {navigate('/MyEvents'); updateActiveLink('/MyEvents')}}
+                                        >
                                             Cancel
                                             <svg className="cancel-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                                 <path d="M5 5l14 14M5 19L19 5" strokeWidth="1" strokeLinecap="square"/>

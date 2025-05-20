@@ -12,9 +12,10 @@ interface Event {
     description : string,
     date : Timestamp,
     location : string,
+    imageId : string,
     imageUrl : string,
-    creatorId : string
-    participantsNumber : number
+    creatorId : string,
+    participantsNumber : number,
 }
 
 export { type User,type Event};

@@ -5,11 +5,12 @@ import { useLogin} from "../context/LoginContext";
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "../context/ProfileContext";
 import { type User } from "../types/interfaces";
+import { useActiveLink } from "../context/ActiveLinkContext";
 
 export default function Connexion(){
 
     const {switchLogin} = useLogin();
-
+    const {updateActiveLink} = useActiveLink();
     const {updateName} = useProfile();
 
     const navigate = useNavigate();
@@ -55,7 +56,7 @@ export default function Connexion(){
 
     return (
         <div className="auth-container">
-            <button className="back-button" onClick={() => navigate('/')}>
+            <button className="back-button" onClick={() => {navigate('/'); updateActiveLink('/');}}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                 </svg>

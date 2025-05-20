@@ -7,7 +7,7 @@ admin.initializeApp({
     type: process.env.TYPE,
     project_id : process.env.PROJECT_ID,
     private_key_id : process.env.PRIVATE_KEY_ID,
-    private_key : process.env.PRIVATE_KEY,
+    private_key : process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
     client_email : process.env.CLIENT_EMAIL,
     client_id : process.env.CLIENT_ID,
     auth_uri : process.env.AUTH_URI,
@@ -18,7 +18,7 @@ admin.initializeApp({
   }),
 });
 
- const db = admin.firestore();
+const db = admin.firestore();
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -40,7 +40,7 @@ const sendEventReminder = async () => {
       const tomorrowEvents = [];
 
       eventsDocs.forEach((e) => {
-        if (e.data().date === ddmmyyyy) {
+        if (e.data().date.toDate().toISOString().split('T')[0] === ddmmyyyy) {
           tomorrowEvents.push(e.id);
         }
       });
@@ -52,7 +52,7 @@ const sendEventReminder = async () => {
           const user = await db.collection("user").doc(r.data().userId).get();
           const event = await db.collection("event").doc(r.data().eventId).get();
 
-          const object = {
+          const mailsInfo = {
             email: user.data().email,
             eventTitle: event.data().title,
             eventDescription: event.data().description,
@@ -61,9 +61,9 @@ const sendEventReminder = async () => {
 
           const options = {
             from: process.env.GMAILEMAIL,
-            to: object.email,
-            subject: `Reminder : ${object.eventTitle} is tomorrow !`,
-            text: `Don't forget! "${object.eventTitle}" is scheduled for ${object.eventDate.toUTCString()}.\n\n${object.eventDescription}`,
+            to: mailsInfo.email,
+            subject: `Reminder : ${mailsInfo.eventTitle} is tomorrow !`,
+            text: `Don't forget! "${mailsInfo.eventTitle}" is scheduled for ${mailsInfo.eventDate.toDate().toISOString().split('T')[0]} à ${mailsInfo.eventDate.toDate().toTimeString().split(':').slice(0, 2).join(":")}.\n\n${mailsInfo.eventDescription}`,
           };
 
           try {

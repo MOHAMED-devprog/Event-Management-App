@@ -138,7 +138,7 @@
   fill: #64748b;
 }
 
-.auth-button {
+.auth-button-nav {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -153,13 +153,13 @@
   font-size: 0.95rem;
 }
 
-.auth-button:hover {
+.auth-button-nav:hover {
   background-color: #2563eb;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(58, 134, 255, 0.3);
 }
 
-.auth-icon {
+.auth-icon-nav {
   width: 18px;
   height: 18px;
   fill: white;

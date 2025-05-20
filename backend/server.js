@@ -6,37 +6,57 @@ const cron = require('node-cron');
 require('dotenv').config();
 const fs = require('fs');
 const sendEventReminder = require('./reminderEvents');
+const cloudinary = require('cloudinary').v2;
+const {CloudinaryStorage} = require('multer-storage-cloudinary');
+
+
 
 const app = express();
-
-const imagesFolder = path.join(__dirname, "images");
-
+app.use(express.json());
 app.use(cors({methods : ["GET", "POST", "DELETE", "PUT"]}));
-app.use('/api/images', express.static(imagesFolder));
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, "images/"),
-    filename : (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname))
+cloudinary.config({
+    cloud_name : process.env.CLOUD_NAME,
+    api_key : process.env.API_KEY,
+    api_secret : process.env.API_SECRET,
+})
+
+const storage = new CloudinaryStorage({
+    cloudinary,
+    params : {
+        folder : 'event-images',
+        allowed_formats : ["jpg", "png", "jpeg"],
+        
+    },
 });
+
 
 const upload = multer({storage});
 
 
-app.post('/api/upload/images', upload.single("image"), (req, res) => {
-    res.json({url : `http://localhost:3000/api/images/${req.file.filename}`});
+app.post('/api/upload/images', upload.single("image"), async (req, res) => {
+
+    const imageUrl = req.file.path;
+    const imageId = req.file.filename;
+
+    res.json({
+        url : imageUrl,
+        image_id : imageId,
+    });
 });
 
-app.delete('/api/delete/:filename', (req, res) => {
-    const filename = req.params.filename;
-    const imagePath = path.join(imagesFolder, filename);
 
-    fs.unlink(imagePath, err => {
-        if (err)
-            return res.status(404).json({message : "file not found", error : err.message});
 
-        return res.json({filename : filename, message : "image deleted"});
-    });
+app.delete('/api/delete', async (req, res) => {
+    
+    const { public_id } = req.body;
 
+    try {
+        const result = await cloudinary.uploader.destroy(public_id);
+        res.json({success : true, response : result});
+    }catch(e){
+        res.status(500).json({success : false, error : e});
+    }
 });
 
 
@@ -46,9 +66,17 @@ cron.schedule('0 9 * * *', async () => {
 });
     
 
+app.get('/api/test/reminder', async (req, res) => {
+    try{
+        await sendEventReminder();
+        res.send({success : true});
+    }catch(err){
+        res.send({success : false, error : err.message});
+    }
+})
 
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log("server is running on port 3000");
 });
 

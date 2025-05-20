@@ -60,11 +60,7 @@ app.delete('/api/delete', async (req, res) => {
 });
 
 
-cron.schedule('0 9 * * *', async () => {
-    console.log("Running every day at 9:00 AM");
-    await sendEventReminder();
-});
-    
+  
 
 app.get('/api/test/reminder', async (req, res) => {
     try{

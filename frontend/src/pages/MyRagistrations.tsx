@@ -154,21 +154,23 @@ export default function MyReagistrations(){
                                 <p className="loading-text">Loading your events...</p>
                             </div>
                         ) : noRegistrations ? (
-                            <div className="empty-state-container">
-                                <svg className="empty-icon" viewBox="0 0 24 24">
-                                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 12h2v5H7zm4-7h2v12h-2zm4 5h2v7h-2z"/>
-                                </svg>
-                                <h1 className="empty-title">No Event Registrations Yet</h1>
-                                <p className="empty-subtitle">Get started by registering for an upcoming event</p>
-                                <button 
-                                    className="primary-button"
-                                    onClick={() => {navigate('/'); updateActiveLink('/');}}
-                                >
-                                    Browse Events
-                                    <svg className="button-icon" viewBox="0 0 24 24">
-                                        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                            <div className="empty-state-my-registrations">
+                                <div className="empty-state-container">
+                                    <svg className="empty-icon" viewBox="0 0 24 24">
+                                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 12h2v5H7zm4-7h2v12h-2zm4 5h2v7h-2z"/>
                                     </svg>
-                                </button>
+                                    <h1 className="empty-title">No Event Registrations Yet</h1>
+                                    <p className="empty-subtitle">Get started by registering for an upcoming event</p>
+                                    <button 
+                                        className="primary-button"
+                                        onClick={() => {navigate('/'); updateActiveLink('/');}}
+                                    >
+                                        Browse Events
+                                        <svg className="button-icon" viewBox="0 0 24 24">
+                                            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
                         ) : (
                             <div className="events-grid">

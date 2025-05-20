@@ -44,7 +44,6 @@ export default function Connexion(){
                 setErrorAuthentification('Invalid E-mail or Password !');
             else
                 setErrorAuthentification('This E-mail is already used !');
-            console.log("error creating user : "+ e);
         }
         
     }

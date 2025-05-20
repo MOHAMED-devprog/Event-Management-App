@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  height: 100vh;
   padding: 2rem;
   position: relative;
 }
@@ -161,4 +161,11 @@
 .toggle-button:hover {
   color: #2563eb;
   text-decoration: underline;
+}
+
+@media screen and (max-width:768px) {
+
+  .auth-card {
+    margin-top: 10%;
+  }
 }

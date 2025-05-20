@@ -28,16 +28,19 @@ export default function EventCard(props:any){
         
     }
 
+    
+
 
     useEffect(() => {
         
         if (profile){
-            if (props.registred){
+            if (props.registred)
                 setRegistrationEffect(true);
-            }else 
-                setRegistrationEffect(false);
-        }
-    },[profile]);
+            
+        }else 
+            setRegistrationEffect(false);
+            
+    },[profile, login]);
 
 
     return (
@@ -69,7 +72,7 @@ export default function EventCard(props:any){
                                 Modify
                             </button>
                         
-                        ): props.registred || registrationEffect? (
+                        ): props.registred || registrationEffect ? (
 
                             <div className="success-checkmark">
                                 <div className="check-icon">

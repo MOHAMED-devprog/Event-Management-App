@@ -7,6 +7,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "fire
 
 
 export const registerUser = async ({username, email} : User, password : string) => {
+    
 
     const userInfo = await createUserWithEmailAndPassword(auth, email, password);
 

@@ -12,7 +12,6 @@ import { useActiveLink } from "../context/ActiveLinkContext";
 
 
 
-
 export default function EventList(){
 
     const [eventData, setEventData] = useState<Event[]>([]);
@@ -53,7 +52,7 @@ export default function EventList(){
 
 
     useEffect(() => {  
-        
+        console.log("useEffect eventSearch is running ! ");
         if (eventSearch !== ""){
             fetchAllEvents("", eventSearch);
         }else
@@ -65,12 +64,12 @@ export default function EventList(){
 
     useEffect(() => {
         updateActiveLink('/');
-        
+
         if (profile?.id)
             fetchAllRegistrations(profile.id);
         else 
             setRegistrationData([]);
-    },[profile,activeLink]);
+    },[profile, activeLink]);
 
     
 

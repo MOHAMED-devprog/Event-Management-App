@@ -31,7 +31,7 @@ export default function EventForm() {
             const Image = new FormData();
             Image.append("image", image);
 
-            const response = await fetch("http://event-management-app-production.up.railway.app/api/upload/images", {
+            const response = await fetch("https://event-management-app-production.up.railway.app/api/upload/images", {
 
                 method: "POST",
                 body: Image,
@@ -59,7 +59,7 @@ export default function EventForm() {
             
             const imageFileName = data.imageId;
             
-            await fetch("http://event-management-app-production.up.railway.app/api/delete",{
+            await fetch("https://event-management-app-production.up.railway.app/api/delete",{
                 method: "DELETE",
 
                 headers: {

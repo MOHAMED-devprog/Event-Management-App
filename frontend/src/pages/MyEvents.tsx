@@ -56,7 +56,7 @@ export default function MyEvents() {
                                 
                                 const imageFileName = eventDeleted.imageId;
                 
-                                await fetch("http://localhost:3000/api/delete",{
+                                await fetch("http://event-management-app-production.up.railway.app/api/delete",{
                                     method : "DELETE",
 
                                     headers : {

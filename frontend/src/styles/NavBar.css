@@ -338,13 +338,10 @@
   }
 
   .navbar-container{
-    justify-content: start;
-    gap:40%;
+    margin-right: 30%;
   }
 
-  .auth-button-nav{
-    width:150px;
-  }
+ 
   
   .navbar-links {
     display: flex;

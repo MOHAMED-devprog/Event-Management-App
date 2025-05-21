@@ -12,6 +12,7 @@ import { useLogin } from './context/LoginContext';
 import MyEvents from './pages/MyEvents';
 import MyReagistrations from './pages/MyRagistrations';
 import EditEvent from './pages/EditEvent';
+import Footer from './components/Footer';
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
         <Route path="/MyEvents/EditEvent/:eventId" element={<EditEvent />}/>
         <Route path="/Connexion" element={<Connexion/>}/>
       </Routes>
+      <Footer/>
     </Router> 
   )
 }

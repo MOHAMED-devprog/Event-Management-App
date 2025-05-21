@@ -142,6 +142,7 @@
 .auth-button-nav {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   background-color: #3a86ff;
   color: white;
@@ -338,10 +339,12 @@
 
   .navbar-container{
     justify-content: start;
-    gap:45%
+    gap:40%;
   }
 
-  
+  .auth-button-nav{
+    width:150px;
+  }
   
   .navbar-links {
     display: flex;
@@ -349,11 +352,11 @@
     position: absolute;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-    transform: translateX(150px);
+    transform: translateX(130%);
     right: 0;
     top:60px;
     background-color: #ffffff;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.25s ease-in-out;
   }
   
   .dropdown-icon {

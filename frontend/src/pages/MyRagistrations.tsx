@@ -11,6 +11,7 @@ import { deRegisterForEvent } from "../services/eventRegistration";
 import  Swal  from "sweetalert2";
 import '../styles/MyRegistrations.css'
 import { useActiveLink } from "../context/ActiveLinkContext";
+import Footer from "../components/Footer";
 
 export default function MyReagistrations(){
 
@@ -196,6 +197,7 @@ export default function MyReagistrations(){
                         </div>
                     </div>
                 )}
+                <Footer/>
             </>
             
         )

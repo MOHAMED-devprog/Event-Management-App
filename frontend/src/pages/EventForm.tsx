@@ -6,6 +6,7 @@ import { Timestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../context/LoginContext";
 import { useActiveLink } from "../context/ActiveLinkContext";
+import Footer from "../components/Footer";
 
 export default function EventForm() {
 
@@ -222,6 +223,7 @@ export default function EventForm() {
 
 
                 </div>)}
+            <Footer/>
         </>
 
         

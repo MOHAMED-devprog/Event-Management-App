@@ -8,6 +8,7 @@ import { getAllRegistrations } from "../services/getAllRegistrations";
 import { useProfile } from "../context/ProfileContext";
 import { useNavigate } from "react-router-dom";
 import { useActiveLink } from "../context/ActiveLinkContext";
+import Footer from "../components/Footer";
 
 
 
@@ -144,6 +145,7 @@ export default function EventList(){
                 </div>
                 )}
             </main>
+            <Footer/>
         </>
     )
 }

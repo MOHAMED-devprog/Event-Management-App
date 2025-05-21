@@ -6,6 +6,7 @@ import { getEventById } from "../services/getAllEvents";
 import { type Event } from "../types/interfaces";
 import { Timestamp } from "firebase/firestore";
 import { useActiveLink } from "../context/ActiveLinkContext";
+import Footer from "../components/Footer";
 
 export default function EventForm() {
 
@@ -265,6 +266,7 @@ export default function EventForm() {
 
                     )}
                 </div>
+            <Footer/>
         </>
 
         

@@ -11,6 +11,7 @@ import { deleteEvent } from "../services/eventCreation";
 import '../styles/MyEvents.css'
 import Swal from 'sweetalert2'
 import { useActiveLink } from "../context/ActiveLinkContext";
+import Footer from "../components/Footer";
 
 
 
@@ -181,6 +182,7 @@ export default function MyEvents() {
                 </div>
             </div>
             )}
+            <Footer/>
         </>
     )
 

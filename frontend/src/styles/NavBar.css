@@ -52,6 +52,7 @@
   font-size: 0.95rem;
   padding: 0.5rem 1rem;
   border-radius: 8px;
+  cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
 }
@@ -277,7 +278,33 @@
   font-weight:500; 
 }
 
+.hamburger-menu{
+  width: 20px;
+  height: 20px;
+  fill: #64748b;
+  display: none;
+  position: absolute;
+  top:20px;
+  right:25px;
+  cursor: pointer;
+}
 
+.nav-link .logout-icon{
+  width: 18px;
+  height: 18px;
+  stroke: #64748b;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover .logout-icon{
+  
+  stroke: #2563eb;
+
+}
 
 
 
@@ -308,13 +335,33 @@
   .navbar {
     height: 60px;
   }
+
+  .navbar-container{
+    justify-content: start;
+    gap:45%
+  }
+
+  
   
   .navbar-links {
-    margin-left: 80px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    transform: translateX(150px);
+    right: 0;
+    top:60px;
+    background-color: #ffffff;
+    transition: all 0.3s ease-in-out;
   }
   
-  .navbar-links .nav-link span {
+  .dropdown-icon {
     display: none;
+  }
+
+  .user-menu {
+    margin-right: 35%;
   }
   
   .navbar-links .nav-link {
@@ -325,29 +372,30 @@
     display: none;
   }
 
-  .sign-out{
-    top:60px;
-    
-  }
-
-  .sign-out span{
+  .user-menu:hover .user-menu-dropdown{
     display: none;
   }
+
+  .sign-out{
+    display: none;
+  }
+
 
   .user-info .username{
     display: none;
   }
 
-  .nav-link:hover .tooltip {
-    opacity: 1;
-    visibility: visible;
-    top: 40px;
+
+  .hamburger-menu{
+    display: block;
   }
 
-  .user-avatar:hover .tooltip {
-    opacity: 1;
-    visibility: visible;
-    top: 40px;
+  .hamburger-menu:hover + .navbar-links,
+  .navbar-links:hover{
+    transform: translateX(0);
   }
+
+  
+
 }
 

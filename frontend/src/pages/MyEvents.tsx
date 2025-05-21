@@ -86,12 +86,10 @@ export default function MyEvents() {
     const fetchMyEvents = async() => {
 
         if (profile){
-            console.log("there is a profile");
             const docs = await getAllEvents(profile.id);
             setData(docs);
         }
         else {
-            console.log('there is no profile');
             setData(null);
         }
     }

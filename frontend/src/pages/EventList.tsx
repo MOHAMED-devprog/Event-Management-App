@@ -52,7 +52,7 @@ export default function EventList(){
 
 
     useEffect(() => {  
-        console.log("useEffect eventSearch is running ! ");
+        
         if (eventSearch !== ""){
             fetchAllEvents("", eventSearch);
         }else

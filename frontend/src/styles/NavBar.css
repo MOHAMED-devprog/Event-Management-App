@@ -235,6 +235,10 @@
   font-size: 1rem;
 }
 
+.navbar-links :nth-child(5){
+  display: none;
+}
+
 
 .user-info {
   display: flex;
@@ -262,22 +266,6 @@
   background-color: #48bb78;
 }
 
-.tooltip {
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #515151;
-  color: #fff; 
-  padding: 6px 10px;
-  border-radius: 5px;
-  opacity: 0;
-  visibility: hidden;
-  font-size: 10px;
-  text-align: center;
-  transition: all 0.3s ease;
-  font-weight:500; 
-}
 
 .hamburger-menu{
   width: 20px;
@@ -395,7 +383,10 @@
     transform: translateX(0);
   }
 
-  
+  .navbar-links :nth-child(5){
+    display: flex;
+}
+
 
 }
 

@@ -4,7 +4,6 @@ const multer = require('multer');
 const express = require('express');
 const cron = require('node-cron');
 require('dotenv').config();
-const fs = require('fs');
 const sendEventReminder = require('./reminderEvents');
 const cloudinary = require('cloudinary').v2;
 const {CloudinaryStorage} = require('multer-storage-cloudinary');

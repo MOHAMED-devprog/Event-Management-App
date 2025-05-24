@@ -62,8 +62,8 @@ const sendEventReminder = async () => {
           const options = {
             from: process.env.GMAILEMAIL,
             to: mailsInfo.email,
-            subject: `Reminder : ${mailsInfo.eventTitle} is tomorrow !`,
-            text: `Don't forget! "${mailsInfo.eventTitle}" is scheduled for ${mailsInfo.eventDate.toDate().toISOString().split('T')[0]} à ${mailsInfo.eventDate.toDate().toTimeString().split(':').slice(0, 2).join(":")}.\n\n${mailsInfo.eventDescription}`,
+            subject: `Reminder : "${mailsInfo.eventTitle}" is tomorrow !`,
+            text: `Don't forget! "${mailsInfo.eventTitle}" is scheduled for ${mailsInfo.eventDate.toDate().toISOString().split('T')[0]} à ${mailsInfo.eventDate.toDate().toTimeString().split(':').slice(0, 2).join(":")}.\n\n Description : \n${mailsInfo.eventDescription}`,
           };
 
           try {

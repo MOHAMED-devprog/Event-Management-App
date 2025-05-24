@@ -49,7 +49,7 @@ export default function NavBar() {
                 </svg>
                 
                 <ul className="navbar-links">
-                    <li onClick={() => updateActiveLink("/")}>
+                    <li onClick={() => {updateActiveLink("/"); window.scrollTo({top : 0});}}>
                         <Link    
                             to="/" 
                             className={`nav-link ${activeLink === '/' ? "active" : ""}`}                            
@@ -61,7 +61,7 @@ export default function NavBar() {
                             
                         </Link>
                     </li>
-                    <li onClick={() => updateActiveLink("/Event-form")}>
+                    <li onClick={() =>{updateActiveLink("/Event-form"); window.scrollTo({top : 0});}}>
                         <Link 
                             to="/Event-form" 
                             className={`nav-link ${activeLink === '/Event-form' ? "active" : ""}`}  
@@ -73,7 +73,7 @@ export default function NavBar() {
                             
                         </Link>
                     </li>
-                    <li onClick={() => updateActiveLink("/MyRegistrations")}>
+                    <li onClick={() => {updateActiveLink("/MyRegistrations"); window.scrollTo({top : 0});}}>
                         <Link 
                             to="/MyRegistrations" 
                             className={`nav-link ${activeLink === '/MyRegistrations' ? "active" : ""}`}
@@ -86,7 +86,7 @@ export default function NavBar() {
                             
                         </Link>
                     </li>
-                    <li onClick={() => updateActiveLink("/MyEvents")}>
+                    <li onClick={() => {updateActiveLink("/MyEvents"); window.scrollTo({top : 0});}}>
                         <Link 
                             to="/MyEvents" 
                             className={`nav-link ${activeLink === '/MyEvents' ? "active" : ""}`}                           

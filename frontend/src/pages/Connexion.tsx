@@ -21,7 +21,11 @@ export default function Connexion(){
     const [username, setUsername] = useState("");
     const [errorAuthentification, setErrorAuthentification] = useState("");
 
-    const switchToggle = () => setIsLogin(!islogin);
+    const switchToggle = () => {
+        setEmail("");
+        setPassword("");
+        setIsLogin(!islogin);
+    }
 
     const handleSubmit = async (e : FormEvent) => {
         e.preventDefault();
